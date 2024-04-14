@@ -1,4 +1,4 @@
-package Khoa-solution;
+package Tai_solution;
 
 public class main {
     
