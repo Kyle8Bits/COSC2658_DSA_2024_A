@@ -1,4 +1,4 @@
-package Khoa_solution;
+package Tai_solution;
 
 public class Place{
     Place next;
