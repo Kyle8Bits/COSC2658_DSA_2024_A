@@ -1,6 +1,9 @@
-package Khoa_solution;
+package Tai_solution;
 
-public class main {
+import Tai_solution.Map;
+import Tai_solution.Place;
+
+public class test {
     public static void main(String[] args) {
         Map GoogleMap = new Map(10000000);
 
