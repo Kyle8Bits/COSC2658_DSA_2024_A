@@ -1,32 +1,43 @@
 package Tri_solution;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Place {
-    private final int x;
-    private final int y;
-    private Set<String> services;
+    private double x, y;
+    private String services;
 
-    public Place(int x, int y, Set<String> services) {
+    // Constructor
+    public Place(double x, double y, String services) {
         this.x = x;
         this.y = y;
-        this.services = new HashSet<>(services);
+        this.services = services;
     }
 
-    public int getX() {
+    // Getter for x
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    // Setter for x
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    // Getter for y
+    public double getY() {
         return y;
     }
 
-    public Set<String> getServices() {
+    // Setter for y
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    // Getter for services
+    public String getServices() {
         return services;
     }
 
-    public void setServices(Set<String> services) {
+    // Setter for services
+    public void setServices(String services) {
         this.services = services;
     }
 }
