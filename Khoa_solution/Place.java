@@ -4,11 +4,13 @@ public class Place{
     Place next;
     int x_cor, y_cor;
     String service = "UNKNOWN";
+    String name = "UNKNOWN";
 
-    public Place (int x_cor, int y_cor, String service){
+    public Place (int x_cor, int y_cor, String service, String name){
         this.x_cor = x_cor;
         this.y_cor = y_cor;
         this.service = service;
+        this.name = name;
         next = null;
     }
 }
@@ -24,7 +26,7 @@ class PlaceLinkList{
 
     public boolean insert(Place place) {
         if (head == null) {
-            head = new Place(place.x_cor, place.y_cor,place.service);
+            head = new Place(place.x_cor, place.y_cor,place.service, place.name);
             size = 1;
             return true;
         }
@@ -37,7 +39,7 @@ class PlaceLinkList{
             parent = current;
             current = current.next;
         }
-        parent.next = new Place(place.x_cor, place.y_cor,place.service);
+        parent.next = new Place(place.x_cor, place.y_cor,place.service, place.name);
         size++;
         return true;  
     }
