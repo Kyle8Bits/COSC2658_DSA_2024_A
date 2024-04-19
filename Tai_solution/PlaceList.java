@@ -1,64 +1,50 @@
 package Tai_solution;
 
 public class PlaceList {
-    static class Place {
-        // the coordinate of the place
-        int x;
-        int y;
-        String name;
-        ServiceList serviceList; // Each Place has a name and a list of services
-        Place next; // Next Place in the list
-
-        public Place(String name) {
-            this.name = name;
-            this.serviceList = new ServiceList();
-            this.next = null;
-        }
-
-        public Place(String name, ServiceList serviceList, int x, int y) {
-            this.name = name;
-            this.serviceList = serviceList;
-            this.x = x;
-            this.y = y;
-            this.next = null;
-        }
-
-        @Override
-        public String toString() {
-            return "Place Name: " + name + "(" + this.x + ", " + this.y + "), Services: [" + serviceList.toString()
-                    + "]";
-        }
-    }
-
+    private PlaceNode head; // Head of the list
     private int size; // Size of the list
-    private Place head; // Head of the list
 
     public PlaceList() {
         this.head = null;
         this.size = 0;
     }
 
-    public boolean addPlace(String name, ServiceList list, int x, int y) {
+    public boolean insert(Place place) {
         // if the placeList is currently empty
-        if (this.head == null) {
-            Place newPlace = new Place(name, list, x, y);
-            this.head = newPlace;
-            this.size++;
+        if (this.size == 0) {
+            this.head = new PlaceNode(place);
+            size = 1;
             return true;
         }
-
         // default case. Go to the end of the list and add services.
         // go from head
-        Place temp = this.head;
+        PlaceNode temp = this.head;
         while (temp.next != null) {
+            if (place.x == temp.data.x && place.y == temp.data.y) {// if the coordinate are duplicated
+                System.out.println("A place with these coordinates already exists!");
+                return false;
+            }
             temp = temp.next;
         }
+
         // after the while looop, the temp is at null node.
         // create the new place and add to the list
-        Place newPlace = new Place(name, list, x, y);
-        temp.next = newPlace;
+        PlaceNode newPlaceNode = new PlaceNode(place);
+        temp.next = newPlaceNode;
         this.size++;
         return true;
+    }
+
+    public Place get(int x, int y){
+        PlaceNode temp = this.head;
+        while(temp != null){
+            if(temp.data.x == x || temp.data.y == y){
+                return temp.data;
+            }
+            temp = temp.next;
+        }
+
+        return null;//reeturn null if end the loop and still not find the place
     }
 
     @Override
@@ -68,17 +54,58 @@ public class PlaceList {
         }
 
         String str = "";
-        Place temp = this.head;
+        PlaceNode temp = this.head;
         while (temp != null) {
-            if(temp.next == null){
-                str += temp.toString();
-            }else {
-                str += temp.toString() + " --> ";
+            if (temp.next == null) {
+                str += temp.data.toString();
+            } else {
+                str += temp.data.toString() + " --> ";
             }
             temp = temp.next;
         }
 
         return str;
+    }
+
+    public int getSize() {
+        return this.size;
+    }
+
+}
+
+class PlaceNode {
+    Place data;
+    PlaceNode next; // Next Place in the list
+
+    PlaceNode(Place data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class Place {
+    // the coordinate of the place
+    int x;
+    int y;
+    String name;
+    ServiceList serviceList; // Each Place has a name and a list of services
+
+    public Place(String name) {
+        this.name = name;
+        this.serviceList = new ServiceList();
+    }
+
+    public Place(int x, int y, String name, ServiceList serviceList) {
+        this.x = x;
+        this.y = y;
+        this.name = name;
+        this.serviceList = serviceList;
+    }
+
+    @Override
+    public String toString() {
+        return "Place Name: " + name + "(" + this.x + ", " + this.y + "), Services: [" + serviceList.toString()
+                + "]";
     }
 
 }
