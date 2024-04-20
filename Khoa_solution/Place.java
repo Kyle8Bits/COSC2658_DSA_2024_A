@@ -3,20 +3,21 @@ package Khoa_solution;
 public class Place{
     Place next;
     int x_cor, y_cor;
-    ServiceHashTable serviceList;
+    ServiceHashTable hashService;
     String name = "UNKNOWN";
     
 
     public Place (int x_cor, int y_cor, String name){
         this.x_cor = x_cor;
         this.y_cor = y_cor;
-        serviceList = new ServiceHashTable(5);
+        hashService = new ServiceHashTable(5);
         this.name = name;
         next = null;
     }
-    void displayService(){
-        serviceList.displayService();
-    }
+    // void displayService(){
+    //     serviceList.displayService();
+    // }
+
 }
 
 class PlaceLinkList{
