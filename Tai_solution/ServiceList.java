@@ -73,6 +73,11 @@ public class ServiceList {
         }
     }
 
+    public boolean checkService(String service){
+        //check whether the service appear in this list
+        for
+    }
+
     @Override
     public String toString() {
         if (this.head == null) {
