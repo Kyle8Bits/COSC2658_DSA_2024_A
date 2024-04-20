@@ -48,16 +48,17 @@ public class Map {
                 Place head = Y_LENGTH[i].head;
                 Place temp = null;
                 while (head != null) {
-                    if(head.service.equals(service) && (head.x_cor < rear_x && head.x_cor > front_x)){
+                    if(!head.name.equals(location.name) && (head.x_cor < rear_x && head.x_cor > front_x)){
                         System.out.println(head.name);
+                        if(head.serviceList.checkOfferService(service)){
+
+                        }
                     }
                     temp = head;
                     head = head.next;
                 }
             }
         }
-
-
     }
 
 }
