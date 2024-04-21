@@ -70,20 +70,21 @@ public class ServiceList {
             }
         }
     }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < SIZE; i++) {
-            Service temp = table[i];
-            while (temp != null) {
-                builder.append(temp.name);
-                if (temp.next != null) {
-                    builder.append(" --> ");
-                }
-                temp = temp.next;
-            }
-        }
-        return builder.toString();
-    }
+    // Need to update
+    
+    // @Override
+    // public String toString() {
+    //     StringBuilder builder = new StringBuilder();
+    //     for (int i = 0; i < SIZE; i++) {
+    //         Service temp = table[i];
+    //         while (temp != null) {
+    //             builder.append(temp.name);
+    //             if (temp.next != null) {
+    //                 builder.append(" --> ");
+    //             }
+    //             temp = temp.next;
+    //         }
+    //     }
+    //     return builder.toString();
+    // }
 }
