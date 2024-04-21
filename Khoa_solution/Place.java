@@ -3,16 +3,21 @@ package Khoa_solution;
 public class Place{
     Place next;
     int x_cor, y_cor;
-    String service = "UNKNOWN";
+    ServiceHashTable hashService;
     String name = "UNKNOWN";
+    
 
-    public Place (int x_cor, int y_cor, String service, String name){
+    public Place (int x_cor, int y_cor, String name){
         this.x_cor = x_cor;
         this.y_cor = y_cor;
-        this.service = service;
+        hashService = new ServiceHashTable(5);
         this.name = name;
         next = null;
     }
+    // void displayService(){
+    //     serviceList.displayService();
+    // }
+
 }
 
 class PlaceLinkList{
@@ -26,7 +31,7 @@ class PlaceLinkList{
 
     public boolean insert(Place place) {
         if (head == null) {
-            head = new Place(place.x_cor, place.y_cor,place.service, place.name);
+            head = new Place(place.x_cor, place.y_cor, place.name);
             size = 1;
             return true;
         }
@@ -39,7 +44,7 @@ class PlaceLinkList{
             parent = current;
             current = current.next;
         }
-        parent.next = new Place(place.x_cor, place.y_cor,place.service, place.name);
+        parent.next = new Place(place.x_cor, place.y_cor, place.name);
         size++;
         return true;  
     }
