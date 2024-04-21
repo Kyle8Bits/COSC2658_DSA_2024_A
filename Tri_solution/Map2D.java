@@ -1,35 +1,25 @@
 package Tri_solution;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Map2D {
-    private List<Place> places;
+    private XMap[] rows;// the array of Xmap, represent the x-coordinat of the mpa
+    private int Y_SIZE = 10000000;// the size of the map, about 1 millionm
 
-    public Map2D() {
-        places = new ArrayList<>();
+    public Map2D(){
+        rows = new XMap[Y_SIZE];
     }
 
-    public void add(Place place) {
-        places.add(place);
-    }
-    
-    public void edit(Place place, String newServices) {
-        place.setServices(newServices);
-    }
-    
-    public void remove(Place place) {
-    }
-    
-    public List<Place> search(double topLeftX, double topLeftY, double width, double height, String service) {
-        List<Place> rectangle = new ArrayList<>();
-        for (Place place : places) {
-            if (place.getServices().contains(service) &&
-                place.getX() >= topLeftX && place.getX() <= topLeftX + width &&
-                place.getY() >= topLeftY && place.getY() <= topLeftY + height) {
-                rectangle.add(place);
-            }
+    public void addPlace(Place place){
+        if(rows[place.y] == null){
+            rows[place.y] = new XMap();
         }
-        return rectangle.subList(0, Math.min(rectangle.size(), 50)); // Limit to 50 places
+        rows[place.y].put(place);
+    }
+
+    public Place getPlace(Place place){
+        if(rows[place.y] == null){
+            return null;
+        }
+
+        return rows[place.y].get(place);
     }
 }
