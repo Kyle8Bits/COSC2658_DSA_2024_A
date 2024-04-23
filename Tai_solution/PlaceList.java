@@ -71,14 +71,14 @@ public class PlaceList {
         return this.size;
     }
 
-    public PlaceList getPlacesByService(String service){
-        PlaceList list = new PlaceList();
+    // public PlaceList getPlacesByService(String service){
+    //     PlaceList list = new PlaceList();
 
-        PlaceNode temp = this.head;
-        while(temp != null){
+    //     PlaceNode temp = this.head;
+    //     while(temp != null){
             
-        }
-    }
+    //     }
+    // }
 
 }
 

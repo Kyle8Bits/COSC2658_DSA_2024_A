@@ -1,4 +1,4 @@
-package Tai_solution;
+package Tai_solution_kdtree;
 
 public class ServiceList {
     // the static class service inside the list.
