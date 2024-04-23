@@ -64,6 +64,18 @@ class Place {
         this.serviceList = serviceList;
     }
 
+    public boolean editServiceList(String[] services) {
+        ServiceList list = new ServiceList();
+
+        for (String service : services) {
+            list.addService(service);
+        }
+
+        this.serviceList = list;
+        
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Place Name: " + name + "(" + this.x + ", " + this.y + "), Services: [" + serviceList.toString()

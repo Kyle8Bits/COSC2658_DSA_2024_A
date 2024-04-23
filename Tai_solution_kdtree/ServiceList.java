@@ -81,7 +81,7 @@ public class ServiceList {
     @Override
     public String toString() {
         if (this.head == null) {
-            return "No services available.";
+            return "No services available";
         }
 
         String str = "";

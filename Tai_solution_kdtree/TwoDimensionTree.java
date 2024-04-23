@@ -26,10 +26,11 @@ public class TwoDimensionTree {
         }
 
         // Otherwise, we invoke the addNewNode fucntion.
-        return addNewNode(root, newPlace, 0);
+        return addNode(root, newPlace, 0);
     }
 
-    private PlaceNode addNewNode(PlaceNode node, Place newPlace, int depth) {
+    // O(log(N))
+    private PlaceNode addNode(PlaceNode node, Place newPlace, int depth) {
         // if (node == null) {
         // return new PlaceNode(null, newPlace);
         // }
@@ -45,7 +46,7 @@ public class TwoDimensionTree {
                 node.left = new PlaceNode(node, newPlace);
                 return node.left;
             } else {
-                return addNewNode(node.left, newPlace, depth + 1);
+                return addNode(node.left, newPlace, depth + 1);
             }
 
         } else {// GO RIGHT
@@ -53,8 +54,44 @@ public class TwoDimensionTree {
                 node.right = new PlaceNode(node, newPlace);
                 return node.right;
             } else {
-                return addNewNode(node.right, newPlace, depth + 1);
+                return addNode(node.right, newPlace, depth + 1);
             }
+        }
+    }
+
+    public boolean editService(int x, int y, String[] newServices) {
+        PlaceNode editedPlaceNode = this.find(x, y);
+        if (editedPlaceNode != null) {
+            return editedPlaceNode.data.editServiceList(newServices);
+        }
+        return false;
+    }
+
+    public PlaceNode find(int x, int y) {
+        return findNode(this.root, x, y, 0);
+    }
+
+    private PlaceNode findNode(PlaceNode node, int x, int y, int depth) {
+        if (node == null) {
+            return null;// Can not find the node.
+        }
+
+        // check the current node is the node taht we want to find or not.
+        if (node.data.x == x && node.data.y == y) {
+            // return the node if we can find the node
+            return node;
+        }
+
+        int currentDimensionCompare = depth % 2;
+        // this variable decide the road (go right or go left)
+
+        // GO LEFT
+        if ((currentDimensionCompare == 0 && x < node.data.x)
+                || (currentDimensionCompare == 1 && y < node.data.y)) {
+            return findNode(node.left, x, y, depth + 1); // Go left
+
+        } else {// GO RIGHT
+            return findNode(node.right, x, y, depth + 1);
         }
     }
 
