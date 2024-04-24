@@ -2,6 +2,9 @@ package Khoa_2nd_attempt;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class TwoDimensionTree {
     // this is the 2 dimensiontree
@@ -95,37 +98,69 @@ public class TwoDimensionTree {
         }
     }
 
-    public PlaceNode searchNearest(int x, int y, int walking, String service) {
-        return searchNearestNode(x, y, this.root, 0, walking, service);
+    public List<PlaceNode> searchNearest(int x, int y, int walking, String service) {
+        List<PlaceNode> result = new ArrayList<>();
+        searchNearestNode(x, y, this.root, 0, walking, service, result);
+        return result;
     }
 
-    private PlaceNode searchNearestNode(int x, int y, PlaceNode nearestPlace, int depth, int walking, String service) {
-        if(nearestPlace == null){
-            return null;
+    // Recursive method to traverse the tree and collect nodes
+    private void searchNearestNode(int x, int y, PlaceNode root, int depth, int walking, String service, List<PlaceNode> result) {
+        if (root == null) {
+            return;
         }
 
         int currentDimensionCompare = depth % 2;
-        PlaceNode nextBranch;
-        PlaceNode otherBranch;
+        PlaceNode nextBranch, otherBranch;
 
-        if ((currentDimensionCompare == 0 && x < nearestPlace.data.x)
-                || (currentDimensionCompare == 1 && y < nearestPlace.data.y)) {// GO LEFT
-            nextBranch = nearestPlace.left;
-            otherBranch = nearestPlace.right;
-
-        } else {// GO RIGHT
-            nextBranch = nearestPlace.right;
-            otherBranch = nearestPlace.left;
+        if ((currentDimensionCompare == 0 && x < root.data.x) || (currentDimensionCompare == 1 && y < root.data.y)) {
+            nextBranch = root.left;
+            otherBranch = root.right;
+        } else {
+            nextBranch = root.right;
+            otherBranch = root.left;
         }
 
-        double shortestDistance = nearestPlace.data.distanceTo(x,y);
+        // Traverse down the next branch first
+        searchNearestNode(x, y, nextBranch, depth + 1, walking, service, result);
 
-        if(shortestDistance < walking && nearestPlace.data.findService(service)){
-            return nearestPlace;
+        // Check current root for service availability and distance
+        if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking) {
+            result.add(root);
         }
-        
-        if
+
+        // Possibly search the other branch if close enough to have potential nodes
+        double radiusSquare = (double) walking * walking;
+        if (distSquared(x, y, root.data.x, root.data.y) <= radiusSquare) {
+            searchNearestNode(x, y, otherBranch, depth + 1, walking, service, result);
+        }
     }
+    
+    private PlaceNode closest(PlaceNode n0, PlaceNode n1, int x, int y, int walking, String service) {
+        PlaceNode bestNode = null;
+        if (n0 != null && n0.data.findService(service) && distance(n0.data.x, n0.data.y, x, y) <= walking) {
+            bestNode = n0;
+        }
+        if (n1 != null && n1.data.findService(service) && distance(n1.data.x, n1.data.y, x, y) <= walking) {
+            if (bestNode == null || distance(n1.data.x, n1.data.y, x, y) < distance(bestNode.data.x, bestNode.data.y, x, y)) {
+                bestNode = n1;
+            }
+        }
+        return bestNode;
+    }
+    
+
+    private double distSquared(int x1, int y1, int x2, int y2) {
+        int deltaX = x1 - x2;
+        int deltaY = y1 - y2;
+        return deltaX * deltaX + deltaY * deltaY;
+    }
+
+    // Helper method to calculate distance
+    private double distance(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(distSquared(x1, y1, x2, y2));
+    }
+    
 
     public void printBreadthFirst() {
         breadthFirstTraversal(this.root);

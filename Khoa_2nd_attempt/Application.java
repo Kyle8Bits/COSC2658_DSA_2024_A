@@ -1,4 +1,6 @@
 package Khoa_2nd_attempt;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
@@ -8,11 +10,23 @@ public class Application {
         // Add some places with services to the map
         map.add(100, 200, "Coffee Shop", new String[] { "Coffee", "Tea", "Pastries" });
         map.add(300, 400, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
+        map.add(350, 450, "FAHASA", new String[] { "Books", "Magazines", "Stationery" });
         map.add(500, 600, "Restaurant", new String[] { "Food", "Beverages", "Desserts" });
         map.add(100, 253, "Tea House", new String[] { "Tea", "Cookies" });
+        map.add(100, 400, "Coffee House", new String[] { "Tea", "Coffee" });
+        map.add(100, 500, "GongCha", new String[] { "Tea", "MilkTea" });
 
-        System.out.println(
-                map.findNearsetPlace(100, 220, 100, "Books").data.toString());
+        List<PlaceNode> nearestPlaces = map.findNearsetPlace(100, 200,354 , "Books");
+
+        if (nearestPlaces.isEmpty()) {
+            System.out.println("No places found within the walking distance that offer the service.");
+        } else {
+            // Display the results
+            System.out.println("Places offering tea within 450 meter");
+            for (PlaceNode place : nearestPlaces) {
+                System.out.println(place.data.toString());
+            }
+        }
 
     }
 

@@ -1,5 +1,7 @@
 package Khoa_2nd_attempt;
 
+import java.util.List;
+
 public class Map2D {
     private final TwoDimensionTree tree;// the tree contains the place node
 
@@ -25,7 +27,7 @@ public class Map2D {
         return tree.editService(x, y, newServices);
     }
 
-    public PlaceNode findNearsetPlace(int x, int y, int walking, String service) {
+    public List<PlaceNode> findNearsetPlace(int x, int y, int walking, String service) {
         return tree.searchNearest(x, y, walking, service);
     }
 
