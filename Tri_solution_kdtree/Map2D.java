@@ -34,4 +34,9 @@ public class Map2D {
         return tree.remove(x, y);
     }
 
+    // Print the map using breadth-first traversal
+    public void printBreadthFirst() {
+        tree.printBreadthFirst();
+    }
+
 }

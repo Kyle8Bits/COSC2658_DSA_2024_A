@@ -10,6 +10,10 @@ public class Application {
         map.add(300, 400, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
         map.add(500, 600, "Restaurant", new String[] { "Food", "Beverages","Desserts" });
         map.add(100, 2503, "Tea House", new String[] { "Tea", "Cookies" });
+        map.remove(500, 600);
+        map.remove(100, 200);
+
+        map.printBreadthFirst();
 
          
     }
