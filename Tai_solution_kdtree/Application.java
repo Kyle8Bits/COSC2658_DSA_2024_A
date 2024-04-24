@@ -8,8 +8,12 @@ public class Application {
         // Add some places with services to the map
         map.add(100, 200, "Coffee Shop", new String[] { "Coffee", "Tea", "Pastries" });
         map.add(300, 400, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
-        map.add(500, 600, "Restaurant", new String[] { "Food", "Beverages","Desserts" });
-        map.add(100, 2503, "Tea House", new String[] { "Tea", "Cookies" });
+        map.add(500, 600, "Restaurant", new String[] { "Food", "Beverages", "Desserts" });
+        map.add(100, 253, "Tea House", new String[] { "Tea", "Cookies" });
+
+        System.out.println(
+                map.findNearsetPlace(100, 220, 100, "Books").data.toString());
+
     }
 
     // public static void main(String[] args) {

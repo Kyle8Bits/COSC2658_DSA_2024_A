@@ -74,9 +74,21 @@ public class ServiceList {
     }
 
     // public boolean checkService(String service){
-    //     //check whether the service appear in this list
-    //     for
+    // //check whether the service appear in this list
+    // for
     // }
+
+    public boolean contains(String service){
+        Service temp = this.head;
+        while(temp != null){
+            if(temp.name == service){
+                return true;
+            }
+            temp = temp.next;
+        }
+        
+        return false;
+    }
 
     @Override
     public String toString() {

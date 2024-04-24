@@ -95,6 +95,63 @@ public class TwoDimensionTree {
         }
     }
 
+    public PlaceNode searchNearest(int x, int y, int walking, String service) {
+        return searchNearestNode(x, y, this.root, 0, walking, service);
+    }
+
+    private PlaceNode searchNearestNode(int x, int y, PlaceNode nearestPlace, int depth, int walking,
+            String service) {
+        if (nearestPlace == null) {
+            return null;
+        }
+
+        if (x == nearestPlace.data.x && y == nearestPlace.data.y) {
+            // if they are the same -> skip
+            return null;
+        }
+
+        int currentDimensionCompare = depth % 2;
+        PlaceNode nextBranch;
+        PlaceNode otherBranch;
+
+        if ((currentDimensionCompare == 0 && x < nearestPlace.data.x)
+                || (currentDimensionCompare == 1 && y < nearestPlace.data.y)) {// GO LEFT
+            nextBranch = nearestPlace.left;
+            otherBranch = nearestPlace.right;
+
+        } else {// GO RIGHT
+            nextBranch = nearestPlace.right;
+            otherBranch = nearestPlace.left;
+        }
+
+        PlaceNode closerPlace = searchNearestNode(x, y, nextBranch, depth + 1, walking, service);
+
+        if (closerPlace != null
+                && closerPlace.data.distanceTo(x, y) < nearestPlace.data.distanceTo(x, y)
+                && closerPlace.data.findService(service)) {
+            nearestPlace = closerPlace;
+        }
+
+        if (otherBranch != null) {
+            if (currentDimensionCompare == 0) {
+                if (Math.abs(nearestPlace.data.x - x) <= walking) {
+                    closerPlace = searchNearestNode(x, y, otherBranch, depth + 1, walking, service);
+                }
+            } else {
+                if (Math.abs(nearestPlace.data.y - y) <= walking) {
+                    closerPlace = searchNearestNode(x, y, otherBranch, depth + 1, walking, service);
+                }
+            }
+            if (closerPlace != null
+                    && closerPlace.data.distanceTo(x, y) < nearestPlace.data.distanceTo(x, y)
+                    && closerPlace.data.findService(service)) {
+                nearestPlace = closerPlace;
+            }
+        }
+
+        return nearestPlace;
+    }
+
     public void printBreadthFirst() {
         breadthFirstTraversal(this.root);
     }

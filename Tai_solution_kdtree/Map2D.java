@@ -25,8 +25,12 @@ public class Map2D {
         return tree.editService(x, y, newServices);
     }
 
+    public PlaceNode findNearsetPlace(int x, int y, int walking, String service) {
+        return tree.searchNearest(x, y, walking, service);
+    }
+
     // public PlaceNode find(int x, int y){
-    //     return tree.find(x, y);
+    // return tree.find(x, y);
     // }
 
 }
