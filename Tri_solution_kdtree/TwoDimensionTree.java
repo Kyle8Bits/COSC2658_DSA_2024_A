@@ -95,91 +95,163 @@ public class TwoDimensionTree {
         }
     }
 
-    public PlaceNode remove(int x, int y) {
-        return removeNode(this.root, x, y, 0);
+    // public PlaceNode remove(int x, int y) {
+    //     return removeNode(this.root, x, y, 0);
+    // }
+
+    // private PlaceNode removeNode(PlaceNode node, int x, int y, int depth) {
+    //     if (node == null) {
+    //         return null; // Node not found.
+    //     }
+
+    //     if (node.data.x == x && node.data.y == y) {
+    //         // Case 1: Node has no children
+    //         if (node.left == null && node.right == null) {
+    //             if (node.parent != null) {
+    //                 if (node.parent.left == node) {
+    //                     node.parent.left = null;
+    //                 } else {
+    //                     node.parent.right = null;
+    //                 }
+    //             } else {
+    //                 this.root = null;
+    //             }
+    //             return node;
+    //         }
+
+    //         // Case 2: Node has one child
+    //         if (node.left == null) {
+    //             PlaceNode child = node.right;
+    //             replaceNode(node, child);
+    //             return node;
+    //         } else if (node.right == null) {
+    //             PlaceNode child = node.left;
+    //             replaceNode(node, child);
+    //             return node;
+    //         }
+
+    //         // Case 3: Node has two children
+    //         if (node.left != null && node.right != null) {
+    //             return removeNodeWithTwoChildren(node);
+    //         }
+    //     }
+
+    //     int currentDimensionCompare = depth % 2;
+
+    //     if ((currentDimensionCompare == 0 && x < node.data.x)
+    //             || (currentDimensionCompare == 1 && y < node.data.y)) {
+    //         return removeNode(node.left, x, y, depth + 1); // Go left
+    //     } else {
+    //         return removeNode(node.right, x, y, depth + 1); // Go right
+    //     }
+    // }
+
+    // private void replaceNode(PlaceNode oldNode, PlaceNode newNode) {
+    //     if (oldNode.parent != null) {
+    //         if (oldNode.parent.left == oldNode) {
+    //             oldNode.parent.left = newNode;
+    //         } else {
+    //             oldNode.parent.right = newNode;
+    //         }
+    //     } else {
+    //         this.root = newNode;
+    //     }
+    //     if (newNode != null) {
+    //         newNode.parent = oldNode.parent;
+    //     }
+    // }
+
+    // private PlaceNode findInOrderSuccessor(PlaceNode node) {
+    //     // Find the leftmost node in the right subtree
+    //     PlaceNode current = node.right;
+    //     while (current.left != null) {
+    //         current = current.left;
+    //     }
+    //     return current;
+    // }
+
+    // private PlaceNode removeNodeWithTwoChildren(PlaceNode node) {
+    //     // Find the in-order successor (or predecessor)
+    //     PlaceNode inOrderSuccessor = findInOrderSuccessor(node);
+    
+    //     // Replace the data of the node to be removed with the data of the in-order successor
+    //     node.data = inOrderSuccessor.data;
+    
+    //     // Recursively remove the in-order successor from its original position
+    //     return removeNode(node.right, inOrderSuccessor.data.x, inOrderSuccessor.data.y, 0);
+    // }
+
+    public boolean remove(int x, int y) {
+        PlaceNode nodeToRemove = find(x, y);
+        if (nodeToRemove == null) {
+            return false;
+        }
+    
+        removeNode(nodeToRemove);
+        return true;
     }
-
-    private PlaceNode removeNode(PlaceNode node, int x, int y, int depth) {
-        if (node == null) {
-            return null; // Node not found.
-        }
-
-        if (node.data.x == x && node.data.y == y) {
-            // Case 1: Node has no children
-            if (node.left == null && node.right == null) {
-                if (node.parent != null) {
-                    if (node.parent.left == node) {
-                        node.parent.left = null;
-                    } else {
-                        node.parent.right = null;
-                    }
-                } else {
-                    this.root = null;
-                }
-                return node;
-            }
-
-            // Case 2: Node has one child
-            if (node.left == null) {
-                PlaceNode child = node.right;
-                replaceNode(node, child);
-                return node;
-            } else if (node.right == null) {
-                PlaceNode child = node.left;
-                replaceNode(node, child);
-                return node;
-            }
-
-            // Case 3: Node has two children
-            if (node.left != null && node.right != null) {
-                return removeNodeWithTwoChildren(node);
-            }
-        }
-
-        int currentDimensionCompare = depth % 2;
-
-        if ((currentDimensionCompare == 0 && x < node.data.x)
-                || (currentDimensionCompare == 1 && y < node.data.y)) {
-            return removeNode(node.left, x, y, depth + 1); // Go left
-        } else {
-            return removeNode(node.right, x, y, depth + 1); // Go right
-        }
-    }
-
-    private void replaceNode(PlaceNode oldNode, PlaceNode newNode) {
-        if (oldNode.parent != null) {
-            if (oldNode.parent.left == oldNode) {
-                oldNode.parent.left = newNode;
+    
+    private void removeNode(PlaceNode node) {
+        if (node.left == null && node.right == null) {
+            // Node is a leaf
+            if (node.parent == null) {
+                root = null; // node is root and has no children
             } else {
-                oldNode.parent.right = newNode;
+                PlaceNode parent = node.parent;
+                if (parent.left == node) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
+                }
             }
         } else {
-            this.root = newNode;
-        }
-        if (newNode != null) {
-            newNode.parent = oldNode.parent;
+            // Node is not a leaf
+            if (node.right != null) {
+                // Find minimum node from the right subtree (or maximum from the left subtree)
+                PlaceNode minNode = findMin(node.right, 0, 1); // depth starts at 0, next dimension is 1
+                node.data = minNode.data; // replace node data with minNode data
+                removeNode(minNode); // recursively remove the minNode
+            } else {
+                // No right child, replace with left child (similar logic as above)
+                PlaceNode minNode = findMin(node.left, 0, 1); 
+                node.data = minNode.data;
+                removeNode(minNode);
+            }
         }
     }
-
-    private PlaceNode findInOrderSuccessor(PlaceNode node) {
-        // Find the leftmost node in the right subtree
-        PlaceNode current = node.right;
-        while (current.left != null) {
-            current = current.left;
-        }
-        return current;
-    }
-
-    private PlaceNode removeNodeWithTwoChildren(PlaceNode node) {
-        // Find the in-order successor (or predecessor)
-        PlaceNode inOrderSuccessor = findInOrderSuccessor(node);
     
-        // Replace the data of the node to be removed with the data of the in-order successor
-        node.data = inOrderSuccessor.data;
-    
-        // Recursively remove the in-order successor from its original position
-        return removeNode(node.right, inOrderSuccessor.data.x, inOrderSuccessor.data.y, 0);
+    private PlaceNode findMin(PlaceNode node, int depth, int dim) {
+        if (node == null) {
+            return null;
+        }
+        int currentDimension = depth % 2;
+        if (currentDimension == dim) {
+            if (node.left == null) {
+                return node;
+            } else {
+                return findMin(node.left, depth + 1, dim);
+            }
+        } else {
+            PlaceNode leftMin = findMin(node.left, depth + 1, dim);
+            PlaceNode rightMin = findMin(node.right, depth + 1, dim);
+            return minNode(node, minNode(leftMin, rightMin, dim), dim);
+        }
     }
+    
+    private PlaceNode minNode(PlaceNode a, PlaceNode b, int dim) {
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
+        if ((dim == 0 && a.data.x < b.data.x) || (dim == 1 && a.data.y < b.data.y)) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+    
 
 
     public void printBreadthFirst() {

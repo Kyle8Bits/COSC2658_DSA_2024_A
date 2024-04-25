@@ -30,7 +30,7 @@ public class Map2D {
     // }
 
      // Remove a place (given x and y)
-     public PlaceNode remove(int x, int y) {
+     public boolean remove(int x, int y) {
         return tree.remove(x, y);
     }
 
