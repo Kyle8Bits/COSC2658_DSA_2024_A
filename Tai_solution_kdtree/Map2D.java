@@ -1,5 +1,7 @@
 package Tai_solution_kdtree;
 
+import java.util.List;
+
 public class Map2D {
     public final TwoDimensionTree tree;// the tree contains the place node
 
@@ -25,8 +27,8 @@ public class Map2D {
         return tree.editService(x, y, newServices);
     }
 
-    public PlaceNode findNearsetPlace(int x, int y, int walking, String service) {
-        return tree.searchNearest(x, y, walking, service);
+    public List<PlaceNode>  searchPlaces(int x, int y, int walking, String service) {
+        return tree.search(x, y, walking, service);
     }
 
     public boolean remove(int x, int y) {

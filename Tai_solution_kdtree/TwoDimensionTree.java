@@ -2,6 +2,8 @@ package Tai_solution_kdtree;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TwoDimensionTree {
     // this is the 2 dimensiontree
@@ -95,63 +97,6 @@ public class TwoDimensionTree {
         }
     }
 
-    public PlaceNode searchNearest(int x, int y, int walking, String service) {
-        return searchNearestNode(x, y, this.root, 0, walking, service);
-    }
-
-    private PlaceNode searchNearestNode(int x, int y, PlaceNode nearestPlace, int depth, int walking,
-            String service) {
-        if (nearestPlace == null) {
-            return null;
-        }
-
-        if (x == nearestPlace.data.x && y == nearestPlace.data.y) {
-            // if they are the same -> skip
-            return null;
-        }
-
-        int currentDimensionCompare = depth % 2;
-        PlaceNode nextBranch;
-        PlaceNode otherBranch;
-
-        if ((currentDimensionCompare == 0 && x < nearestPlace.data.x)
-                || (currentDimensionCompare == 1 && y < nearestPlace.data.y)) {// GO LEFT
-            nextBranch = nearestPlace.left;
-            otherBranch = nearestPlace.right;
-
-        } else {// GO RIGHT
-            nextBranch = nearestPlace.right;
-            otherBranch = nearestPlace.left;
-        }
-
-        PlaceNode closerPlace = searchNearestNode(x, y, nextBranch, depth + 1, walking, service);
-
-        if (closerPlace != null
-                && closerPlace.data.distanceTo(x, y) < nearestPlace.data.distanceTo(x, y)
-                && closerPlace.data.findService(service)) {
-            nearestPlace = closerPlace;
-        }
-
-        if (otherBranch != null) {
-            if (currentDimensionCompare == 0) {
-                if (Math.abs(nearestPlace.data.x - x) <= walking) {
-                    closerPlace = searchNearestNode(x, y, otherBranch, depth + 1, walking, service);
-                }
-            } else {
-                if (Math.abs(nearestPlace.data.y - y) <= walking) {
-                    closerPlace = searchNearestNode(x, y, otherBranch, depth + 1, walking, service);
-                }
-            }
-            if (closerPlace != null
-                    && closerPlace.data.distanceTo(x, y) < nearestPlace.data.distanceTo(x, y)
-                    && closerPlace.data.findService(service)) {
-                nearestPlace = closerPlace;
-            }
-        }
-
-        return nearestPlace;
-    }
-
     public boolean remove(int x, int y) {
         PlaceNode nodeToRemove = find(x, y);
         if (nodeToRemove == null) {
@@ -221,6 +166,69 @@ public class TwoDimensionTree {
         } else {
             return b;
         }
+    }
+
+    public List<PlaceNode> search(int x, int y, int walking, String service) {
+        List<PlaceNode> result = new ArrayList<>();
+        searchNodes(x, y, this.root, 0, walking, service, result);
+        return result;
+    }
+
+    // Recursive method to traverse the tree and collect nodes
+    private void searchNodes(int x, int y, PlaceNode root, int depth, int walking, String service,
+            List<PlaceNode> result) {
+        if (root == null) {
+            return;
+        }
+
+        int currentDimensionCompare = depth % 2;
+        PlaceNode nextBranch, otherBranch;
+
+        if ((currentDimensionCompare == 0 && x < root.data.x) || (currentDimensionCompare == 1 && y < root.data.y)) {
+            nextBranch = root.left;
+            otherBranch = root.right;
+        } else {
+            nextBranch = root.right;
+            otherBranch = root.left;
+        }
+
+        // Traverse down the next branch first
+        searchNodes(x, y, nextBranch, depth + 1, walking, service, result);
+
+        // Check current root for service availability and distance
+        if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking) {
+            result.add(root);
+        }
+        // new code
+        double radiusSquare = (double) walking * walking;
+        double axisDistanceSquared;
+        if (currentDimensionCompare == 0) {
+            // We are splitting on x-axis
+            axisDistanceSquared = (x - root.data.x) * (x - root.data.x);
+        } else {
+            // We are splitting on y-axis
+            axisDistanceSquared = (y - root.data.y) * (y - root.data.y);
+        }
+
+        if (axisDistanceSquared <= radiusSquare) {
+            searchNodes(x, y, otherBranch, depth + 1, walking, service, result);
+        }
+
+        // Possibly search the other branch if close enough to have potential nodes
+        // double radiusSquare = (double) walking * walking;
+        // if (distSquared(x, y, root.data.x, root.data.y) <= radiusSquare) {
+        // searchNearestNode(x, y, otherBranch, depth + 1, walking, service, result);
+        // }
+    }
+
+    private double distance(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(distSquared(x1, y1, x2, y2));
+    }
+
+    private double distSquared(int x1, int y1, int x2, int y2) {
+        int deltaX = x1 - x2;
+        int deltaY = y1 - y2;
+        return deltaX * deltaX + deltaY * deltaY;
     }
 
     public void printBreadthFirst() {
