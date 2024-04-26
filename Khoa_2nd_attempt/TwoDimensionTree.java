@@ -5,7 +5,6 @@ import java.util.Queue;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class TwoDimensionTree {
     // this is the 2 dimensiontree
     protected PlaceNode root;
@@ -105,7 +104,8 @@ public class TwoDimensionTree {
     }
 
     // Recursive method to traverse the tree and collect nodes
-    private void searchNearestNode(int x, int y, PlaceNode root, int depth, int walking, String service, List<PlaceNode> result) {
+    private void searchNearestNode(int x, int y, PlaceNode root, int depth, int walking, String service,
+            List<PlaceNode> result) {
         if (root == null) {
             return;
         }
@@ -128,27 +128,41 @@ public class TwoDimensionTree {
         if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking) {
             result.add(root);
         }
-
-        // Possibly search the other branch if close enough to have potential nodes
+        //new code
         double radiusSquare = (double) walking * walking;
-        if (distSquared(x, y, root.data.x, root.data.y) <= radiusSquare) {
+        double axisDistanceSquared;
+        if (currentDimensionCompare == 0) {
+            // We are splitting on x-axis
+            axisDistanceSquared = (x - root.data.x) * (x - root.data.x);
+        } else {
+            // We are splitting on y-axis
+            axisDistanceSquared = (y - root.data.y) * (y - root.data.y);
+        }
+
+        if (axisDistanceSquared <= radiusSquare) {
             searchNearestNode(x, y, otherBranch, depth + 1, walking, service, result);
         }
+
+        // Possibly search the other branch if close enough to have potential nodes
+        // double radiusSquare = (double) walking * walking;
+        // if (distSquared(x, y, root.data.x, root.data.y) <= radiusSquare) {
+        // searchNearestNode(x, y, otherBranch, depth + 1, walking, service, result);
+        // }
     }
-    
+
     private PlaceNode closest(PlaceNode n0, PlaceNode n1, int x, int y, int walking, String service) {
         PlaceNode bestNode = null;
         if (n0 != null && n0.data.findService(service) && distance(n0.data.x, n0.data.y, x, y) <= walking) {
             bestNode = n0;
         }
         if (n1 != null && n1.data.findService(service) && distance(n1.data.x, n1.data.y, x, y) <= walking) {
-            if (bestNode == null || distance(n1.data.x, n1.data.y, x, y) < distance(bestNode.data.x, bestNode.data.y, x, y)) {
+            if (bestNode == null
+                    || distance(n1.data.x, n1.data.y, x, y) < distance(bestNode.data.x, bestNode.data.y, x, y)) {
                 bestNode = n1;
             }
         }
         return bestNode;
     }
-    
 
     private double distSquared(int x1, int y1, int x2, int y2) {
         int deltaX = x1 - x2;
@@ -160,7 +174,6 @@ public class TwoDimensionTree {
     private double distance(int x1, int y1, int x2, int y2) {
         return Math.sqrt(distSquared(x1, y1, x2, y2));
     }
-    
 
     public void printBreadthFirst() {
         breadthFirstTraversal(this.root);

@@ -6,13 +6,22 @@ public class Application {
         // a size parameter
 
         // Add some places with services to the map
-        map.add(100, 200, "Coffee Shop", new String[] { "Coffee", "Tea", "Pastries" });
-        map.add(300, 400, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
-        map.add(500, 600, "Restaurant", new String[] { "Food", "Beverages", "Desserts" });
-        map.add(100, 253, "Tea House", new String[] { "Tea", "Cookies" });
+        map.add(30, 40, "Coffee Shop", new String[] { "Coffee", "Tea", "Pastries" });
+        map.add(5, 25, "Restaurant", new String[] { "Food", "Beverages", "Desserts" });
+        map.add(70, 70, "Restaurant2", new String[] { "Food", "Beverages", "Desserts" });
+        map.add(50, 30, "Restaurant1", new String[] { "Food", "Beverages", "Desserts" });
+        map.add(10, 12, "Bookstore", new String[] { "Books", "Magazines", "Stationery" }); 
+        map.add(25, 30, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
+        // map.add(35, 45, "Tea House", new String[] { "Tea", "Cookies" });
+        map.add(22, 45, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
+        // map.add(35, 35, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
+        map.add(26, 35, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
 
-        System.out.println(
-                map.findNearsetPlace(100, 220, 100, "Books").data.toString());
+
+        // map.tree.printBreadthFirst();
+        // map.remove(5, 25);
+        map.tree.printBreadthFirst();
+
 
     }
 

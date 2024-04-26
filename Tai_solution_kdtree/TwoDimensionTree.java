@@ -152,6 +152,77 @@ public class TwoDimensionTree {
         return nearestPlace;
     }
 
+    public boolean remove(int x, int y) {
+        PlaceNode nodeToRemove = find(x, y);
+        if (nodeToRemove == null) {
+            return false;
+        }
+
+        removeNode(nodeToRemove);
+        return true;
+    }
+
+    private void removeNode(PlaceNode node) {
+        if (node.left == null && node.right == null) {
+            // Node is a leaf
+            if (node.parent == null) {
+                root = null; // node is root and has no children
+            } else {
+                PlaceNode parent = node.parent;
+                if (parent.left == node) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
+                }
+            }
+        } else {
+            // Node is not a leaf
+            if (node.right != null) {
+                // Find minimum node from the right subtree (or maximum from the left subtree)
+                PlaceNode minNode = findMin(node.right, 0, 1); // depth starts at 0, next dimension is 1
+                node.data = minNode.data; // replace node data with minNode data
+                removeNode(minNode); // recursively remove the minNode
+            } else {
+                // No right child, replace with left child (similar logic as above)
+                PlaceNode minNode = findMin(node.left, 0, 1);
+                node.data = minNode.data;
+                removeNode(minNode);
+            }
+        }
+    }
+
+    private PlaceNode findMin(PlaceNode node, int depth, int dim) {
+        if (node == null) {
+            return null;
+        }
+        int currentDimension = depth % 2;
+        if (currentDimension == dim) {
+            if (node.left == null) {
+                return node;
+            } else {
+                return findMin(node.left, depth + 1, dim);
+            }
+        } else {
+            PlaceNode leftMin = findMin(node.left, depth + 1, dim);
+            PlaceNode rightMin = findMin(node.right, depth + 1, dim);
+            return minNode(node, minNode(leftMin, rightMin, dim), dim);
+        }
+    }
+
+    private PlaceNode minNode(PlaceNode a, PlaceNode b, int dim) {
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
+        if ((dim == 0 && a.data.x < b.data.x) || (dim == 1 && a.data.y < b.data.y)) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
     public void printBreadthFirst() {
         breadthFirstTraversal(this.root);
     }
@@ -181,68 +252,5 @@ public class TwoDimensionTree {
             }
         }
     }
-
-    // this function use to insert the place node into the tree
-    // return the new added node or null (if the place's coordinate already exists).
-    // public PlaceNode add(Place place) {
-    // if (this.root == null) {
-    // // if the the tree doesn't have the root (the first insert of the tree)
-    // this.root = new PlaceNode(null, place);
-    // size++;
-    // return root;
-    // }
-
-    // // in the normal case
-    // PlaceNode temp = this.root;// go from the root we define the position for the
-    // new node
-    // int depth = 0;// initially, the depth is 0. We use depth to decide the
-    // variable (x or y) to
-    // // compare
-    // while (temp != null) {
-    // if (depth % 2 == 0) {// compare x coordinate
-    // if (place.x < temp.data.x) {
-    // // go left
-    // if (temp.left == null) {
-    // // right position to insert new node
-    // PlaceNode newNode = new PlaceNode(temp, place);
-    // temp.left = newNode;
-    // size++;
-    // return newNode;
-    // }
-    // temp = temp.right;// go to right
-    // } else {// go right
-    // if (temp.right == null) {
-    // // appropriate position to insert new node
-    // PlaceNode newNode = new PlaceNode(temp, place);
-    // temp.right = newNode;
-    // size++;
-    // return newNode;
-    // }
-    // }
-    // } else {// compare y coordinate
-    // if (place.y < temp.data.y) {
-    // // go left
-    // if (temp.left == null) {
-    // // right position to insert new node
-    // PlaceNode newNode = new PlaceNode(temp, place);
-    // temp.left = newNode;
-    // size++;
-    // return newNode;
-    // }
-    // temp = temp.right;// go to right
-    // } else {// go right
-    // if (temp.right == null) {
-    // // appropriate position to insert new node
-    // PlaceNode newNode = new PlaceNode(temp, place);
-    // temp.right = newNode;
-    // size++;
-    // return newNode;
-    // }
-    // }
-    // }
-    // }
-
-    // return null;
-    // }
 
 }

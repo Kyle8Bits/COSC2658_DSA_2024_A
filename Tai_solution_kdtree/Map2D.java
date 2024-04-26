@@ -1,7 +1,7 @@
 package Tai_solution_kdtree;
 
 public class Map2D {
-    private final TwoDimensionTree tree;// the tree contains the place node
+    public final TwoDimensionTree tree;// the tree contains the place node
 
     public Map2D() {
         this.tree = new TwoDimensionTree();
@@ -29,8 +29,7 @@ public class Map2D {
         return tree.searchNearest(x, y, walking, service);
     }
 
-    // public PlaceNode find(int x, int y){
-    // return tree.find(x, y);
-    // }
-
+    public boolean remove(int x, int y) {
+        return tree.remove(x, y);
+    }
 }
