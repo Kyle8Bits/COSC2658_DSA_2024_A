@@ -2,8 +2,6 @@ package Tai_solution_kdtree;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TwoDimensionTree {
     // this is the 2 dimensiontree
@@ -168,15 +166,15 @@ public class TwoDimensionTree {
         }
     }
 
-    public List<PlaceNode> search(int x, int y, int walking, String service) {
-        List<PlaceNode> result = new ArrayList<>();
+    public PlaceList search(int x, int y, int walking, String service) {
+        PlaceList result = new PlaceList();
         searchNodes(x, y, this.root, 0, walking, service, result);
         return result;
     }
 
     // Recursive method to traverse the tree and collect nodes
     private void searchNodes(int x, int y, PlaceNode root, int depth, int walking, String service,
-            List<PlaceNode> result) {
+            PlaceList result) {
         if (root == null) {
             return;
         }
@@ -197,7 +195,7 @@ public class TwoDimensionTree {
 
         // Check current root for service availability and distance
         if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking) {
-            result.add(root);
+            result.insert(root.data);
         }
         // new code
         double radiusSquare = (double) walking * walking;

@@ -1,7 +1,5 @@
 package Tai_solution_kdtree;
 
-import java.util.List;
-
 public class Map2D {
     public final TwoDimensionTree tree;// the tree contains the place node
 
@@ -27,7 +25,7 @@ public class Map2D {
         return tree.editService(x, y, newServices);
     }
 
-    public List<PlaceNode>  searchPlaces(int x, int y, int walking, String service) {
+    public PlaceList searchPlaces(int x, int y, int walking, String service) {
         return tree.search(x, y, walking, service);
     }
 

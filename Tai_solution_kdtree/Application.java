@@ -1,7 +1,5 @@
 package Tai_solution_kdtree;
 
-import java.util.List;
-
 public class Application {
     public static void main(String[] args) {
         Map2D map = new Map2D(); // Assuming the TwoDimensionTree constructor accepts
@@ -24,18 +22,16 @@ public class Application {
         map.add(11, 15, "Bookstore", new String[] { "cc", "Books", "Magazines", "Stationery", "CCCCC" });
         map.add(8, 20, "Bookstore", new String[] { "cc", "Books", "Magazines", "Stationery", "CCCCC" });
 
+        int walking = 100;
+        String findService = "cc";
+        PlaceList foundPlaces = map.searchPlaces(10, 20, walking, findService);
 
-
-        List<PlaceNode> nearestPlaces = map.searchPlaces(10, 20, 7, "cc");
-
-        if (nearestPlaces.isEmpty()) {
+        if (foundPlaces.isEmpty()) {
             System.out.println("No places found within the walking distance that offer the service.");
         } else {
             // Display the results
-            System.out.println("Places offering tea within 450 meter");
-            for (PlaceNode place : nearestPlaces) {
-                System.out.println(place.data.toString());
-            }
+            System.out.println("There are " + foundPlaces.getSize() + " offering " + findService + " within "  + walking + " meter");
+            System.out.println(foundPlaces.toString());
         }
 
     }
