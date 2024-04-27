@@ -18,9 +18,7 @@ public class Application {
         // "Stationery" });
         map.add(26, 35, "Bookstore", new String[] { "Books", "Magazines", "Stationery" });
         map.add(35, 80, "Bookstore", new String[] { "cc", "Books", "Magazines", "Stationery" });
-        map.add(13, 14, "Bookstore", new String[] { "cc", "Books", "Magazines", "Stationery", "CCCCC" });
-        map.add(11, 15, "Bookstore", new String[] { "cc", "Books", "Magazines", "Stationery", "CCCCC" });
-        map.add(8, 20, "Bookstore", new String[] { "cc", "Books", "Magazines", "Stationery", "CCCCC" });
+        // map.add(13, 14, "Bookstore", new String[] { "cc", "Books", "Magazines", "Stationery", "CCCCC" });
 
         int walking = 100;
         String findService = "cc";
@@ -33,6 +31,5 @@ public class Application {
             System.out.println("There are " + foundPlaces.getSize() + " offering " + findService + " within "  + walking + " meter");
             System.out.println(foundPlaces.toString());
         }
-
     }
 }

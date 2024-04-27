@@ -194,7 +194,7 @@ public class TwoDimensionTree {
         searchNodes(x, y, nextBranch, depth + 1, walking, service, result);
 
         // Check current root for service availability and distance
-        if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking) {
+        if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking && result.getSize() < 50) {
             result.insert(root.data);
         }
         // new code
