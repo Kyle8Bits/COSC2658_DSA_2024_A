@@ -96,75 +96,84 @@ public class TwoDimensionTree {
     }
 
     public boolean remove(int x, int y) {
-        PlaceNode nodeToRemove = find(x, y);
-        if (nodeToRemove == null) {
-            return false;
+        PlaceNode nodeToDelete = find(x, y);
+        if (nodeToDelete == null) {
+            return false; // Node with the given coordinates not found
         }
-
-        removeNode(nodeToRemove);
+        root = removeNode(root, x, y, 0);
+        size--;
         return true;
     }
-
-    private void removeNode(PlaceNode node) {
-        if (node.left == null && node.right == null) {
-            // Node is a leaf
-            if (node.parent == null) {
-                root = null; // node is root and has no children
-            } else {
-                PlaceNode parent = node.parent;
-                if (parent.left == node) {
-                    parent.left = null;
-                } else {
-                    parent.right = null;
-                }
-            }
-        } else {
-            // Node is not a leaf
-            if (node.right != null) {
-                // Find minimum node from the right subtree (or maximum from the left subtree)
-                PlaceNode minNode = findMin(node.right, 0, 1); // depth starts at 0, next dimension is 1
-                node.data = minNode.data; // replace node data with minNode data
-                removeNode(minNode); // recursively remove the minNode
-            } else {
-                // No right child, replace with left child (similar logic as above)
-                PlaceNode minNode = findMin(node.left, 0, 1);
-                node.data = minNode.data;
-                removeNode(minNode);
-            }
-        }
-    }
-
-    private PlaceNode findMin(PlaceNode node, int depth, int dim) {
+    
+    private PlaceNode removeNode(PlaceNode node, int x, int y, int depth) {
         if (node == null) {
             return null;
         }
-        int currentDimension = depth % 2;
-        if (currentDimension == dim) {
+    
+        int cd = depth % 2; // Current dimension
+    
+        if (node.data.x == x && node.data.y == y) {
+            // Node found. Perform deletion.
+    
+            if (node.right != null) {
+                // Find minimum in the right subtree and replace node with it
+                PlaceNode min = findMin(node.right, cd, depth + 1);
+                node.data = min.data;
+                node.right = removeNode(node.right, min.data.x, min.data.y, depth + 1);
+            } else if (node.left != null) {
+                // Find minimum in the left subtree and replace node with it
+                PlaceNode min = findMin(node.left, cd, depth + 1);
+                node.data = min.data;
+                node.right = removeNode(node.left, min.data.x, min.data.y, depth + 1);
+                node.left = null; // Clear left child after moving to right
+            } else {
+                // Node is a leaf
+                return null;
+            }
+        } else if ((cd == 0 && x < node.data.x) || (cd == 1 && y < node.data.y)) {
+            node.left = removeNode(node.left, x, y, depth + 1);
+        } else {
+            node.right = removeNode(node.right, x, y, depth + 1);
+        }
+    
+        return node;
+    }
+    
+    private PlaceNode findMin(PlaceNode node, int d, int depth) {
+        if (node == null) {
+            return null;
+        }
+    
+        int cd = depth % 2;
+    
+        // Only check the dimension d for minimum if it matches the current depth dimension
+        if (cd == d) {
             if (node.left == null) {
                 return node;
             } else {
-                return findMin(node.left, depth + 1, dim);
+                return minNode(node, findMin(node.left, d, depth + 1), d);
             }
         } else {
-            PlaceNode leftMin = findMin(node.left, depth + 1, dim);
-            PlaceNode rightMin = findMin(node.right, depth + 1, dim);
-            return minNode(node, minNode(leftMin, rightMin, dim), dim);
+            return minNode(node,
+                           minNode(findMin(node.left, d, depth + 1), findMin(node.right, d, depth + 1), d),
+                           d);
         }
     }
-
-    private PlaceNode minNode(PlaceNode a, PlaceNode b, int dim) {
+    
+    private PlaceNode minNode(PlaceNode a, PlaceNode b, int d) {
         if (a == null) {
             return b;
         }
         if (b == null) {
             return a;
         }
-        if ((dim == 0 && a.data.x < b.data.x) || (dim == 1 && a.data.y < b.data.y)) {
-            return a;
+        if (d == 0) {
+            return (a.data.x < b.data.x) ? a : b;
         } else {
-            return b;
+            return (a.data.y < b.data.y) ? a : b;
         }
     }
+    
 
     public PlaceList search(int x, int y, int walking, String service) {
         PlaceList result = new PlaceList();
