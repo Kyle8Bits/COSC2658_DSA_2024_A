@@ -34,12 +34,14 @@ public class Application {
         int half_height = 10;
         PlaceList foundPlaces = map.searchPlaces(40, 20, half_width, half_height, findService);
 
-        if (foundPlaces.isEmpty()) {
-            System.out.println("No places found within the walking distance that offer the service.");
-        } else {
-            // Display the results
-            System.out.println("There are " + foundPlaces.getSize() + " offering " + findService + " within "  + walking + " meter");
-            System.out.println(foundPlaces.toString());
-        }
+        // if (foundPlaces.isEmpty()) {
+        //     System.out.println(
+        //             "No places found within " + walkingDistance + " meters offering " + serviceOfInterest + ".");
+        // } else {
+        //     System.out
+        //             .println("Found places offering " + serviceOfInterest + " within " + walkingDistance + " meters:");
+        //     System.out.println(foundPlaces.toString());
+        // }
+
     }
 }

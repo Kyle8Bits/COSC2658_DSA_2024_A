@@ -7,17 +7,8 @@ public class Map2D {
         this.tree = new TwoDimensionTree();
     }
 
-    public void add(int x, int y, String placeName, String[] services) {
-        ServiceList serviceList = new ServiceList();
-        // add the services
-        for (String service : services) {
-            serviceList.addService(service);
-        }
-        // after the loop, we have the servcies list and can add to the List
-        Place place = new Place(x, y, placeName, serviceList);
-        // create the new place with the approriate attributes
-
-        tree.add(place);
+    public void add(Place[] places) {
+        tree.build(places);
     }
 
     // edit an place's servies (given x and y)
