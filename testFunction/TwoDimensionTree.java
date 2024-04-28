@@ -17,47 +17,139 @@ public class TwoDimensionTree {
         return size;
     }
 
-    public PlaceNode add(Place newPlace) {
-        if (this.root == null) {
-            // if the tree's root is currently null, we create the root
-            this.root = new PlaceNode(null, newPlace); // Set root directly if tree is empty
-            size++;
-            return root;
-        }
-
-        // Otherwise, we invoke the addNewNode fucntion.
-        return addNode(root, newPlace, 0);
+    public PlaceNode build(Place[] places) {
+        return this.root = buildTree(places, 0, places.length - 1, 0, null);
     }
 
-    // O(log(N))
-    private PlaceNode addNode(PlaceNode node, Place newPlace, int depth) {
-        // if (node == null) {
-        // return new PlaceNode(null, newPlace);
-        // }
+    private PlaceNode buildTree(Place[] places, int left, int right, int depth, PlaceNode parent) {
+        if (left > right) {
+            return null;
+        }
 
-        int currentDimensionCompare = depth % 2;
         // if currentDimensionCompare is 0 the program will compare x coordinate,
-        // otherwise currentDimensionCompare = 1 ==> compare y.
+        // otherwise currentDimensionCompare = 1
+        int currentDimensionCompare = depth % 2;
 
-        // GO LEFT
-        if ((currentDimensionCompare == 0 && newPlace.x < node.data.x)
-                || (currentDimensionCompare == 1 && newPlace.y < node.data.y)) {
-            if (node.left == null) {
-                node.left = new PlaceNode(node, newPlace);
-                return node.left;
-            } else {
-                return addNode(node.left, newPlace, depth + 1);
-            }
+        // Sort array segment based on the dimension we compare
+        sortPlace(places, left, right, currentDimensionCompare);
 
-        } else {// GO RIGHT
-            if (node.right == null) {
-                node.right = new PlaceNode(node, newPlace);
-                return node.right;
-            } else {
-                return addNode(node.right, newPlace, depth + 1);
-            }
+        // find the median index
+        int mid = (left + right) / 2;
+
+        // Create a new node
+        PlaceNode node = new PlaceNode(parent, places[mid]);
+
+        // Recursively build the left and right subtrees
+        node.left = buildTree(places, left, mid - 1, depth + 1, node);
+        node.right = buildTree(places, mid + 1, right, depth + 1, node);
+
+        return node;
+    }
+
+    private void sortPlace(Place[] places, int left, int right, int dimensionCompare) {
+        // this is quicksort
+        if (left < right) {
+            int p = partition(places, left, right, dimensionCompare);
+            sortPlace(places, left, p, dimensionCompare);
+            sortPlace(places, p + 1, right, dimensionCompare);
         }
     }
+
+    private int partition(Place[] places, int left, int right, int dimensionCompare) {
+        Place p = places[(left + right) / 2]; // Choose middle element as pivot to avoid worst-case on sorted arrays
+        int front = left;
+        int back = right;
+        while (true) {
+            while ((dimensionCompare == 0 && places[front].x < p.x)
+                    || (dimensionCompare == 1 && places[front].y < p.y)) {
+
+                front++;
+            }
+
+            while ((dimensionCompare == 0 && places[back].x > p.x)
+                    || (dimensionCompare == 1 && places[back].y > p.y)) {
+                back--;
+            }
+            if (front >= back) {
+                return back;
+            }
+            // swapping
+            Place tempPlace = places[front];
+            places[front] = places[back];
+            places[back] = tempPlace;
+            front++;
+            back--;
+        }
+    }
+
+    public boolean isBalanced() {
+        return checkBalance(this.root) != -1;
+    }
+
+    private int checkBalance(PlaceNode placeNode) {
+        if (placeNode == null) {
+            return 0; // Height of an empty tree
+        }
+
+        int leftHeight = checkBalance(placeNode.left);
+        if (leftHeight == -1) {
+            return -1; // Left subtree is not balanced
+        }
+
+        int rightHeight = checkBalance(placeNode.right);
+
+        if (rightHeight == -1) {
+            return -1; // Right subtree is not balanced
+        }
+
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return -1; // Current node is not balanced
+        }
+
+        return Math.max(leftHeight, rightHeight) + 1; // Return the height of the tree rooted at this node
+    }
+    // public PlaceNode add(Place newPlace) {
+    // if (this.root == null) {
+    // // if the tree's root is currently null, we create the root
+    // this.root = new PlaceNode(null, newPlace); // Set root directly if tree is
+    // empty
+    // size++;
+    // return root;
+    // }
+
+    // // Otherwise, we invoke the addNewNode fucntion.
+    // return addNode(root, newPlace, 0);
+    // }
+
+    // g(N))
+    // ate PlaceNode addNode(PlaceNode node, Place newPlace, int depth) {
+    // // if (node == null) {
+    // // return new PlaceNode(null, newPlace);
+    // // }
+
+    // int currentDimensionCompare = depth % 2;
+    // // if currentDimensionCompare is 0 the program will compare x coordinate,
+    // // otherwise currentDimensionCompare = 1 ==> compare y.
+
+    // FT
+    // (currentDimensionCompare == 0 && newPlace.x < node.data.x)
+    // || (currentDimensionCompare == 1 && newPlace.y < node.data.y)) {
+    // node.left == null) {
+    // node.left = new PlaceNode(node, newPlace);
+    // return node.left;
+    // } else {
+    // return addNode(node.left, newPlace, depth + 1);
+    // }
+
+    // // GO RIGHT
+    // node.right == null) {
+    // node.right = new PlaceNode(node, newPlace);
+    // return node.right;
+    // } else {
+    // return addNode(node.right, newPlace, depth + 1);
+    // }
+    // }
+    // }
 
     public boolean editService(int x, int y, String[] newServices) {
         PlaceNode editedPlaceNode = this.find(x, y);
@@ -166,7 +258,7 @@ public class TwoDimensionTree {
         }
     }
 
-    public PlaceList search(int x, int y, int half_width, int half_height, String service) {
+    public PlaceList search(int x, int y, int walking, String service) {
         // x y is users' current location.
         PlaceList result = new PlaceList();
         searchNodes(x, y, this.root, 0, walking, service, result);
@@ -221,10 +313,6 @@ public class TwoDimensionTree {
         // }
     }
 
-    private boolean checkWithinRectangle(int x, int y, int half_width, int half_height){
-        PlaceNode
-
-    }
     private double distance(int x1, int y1, int x2, int y2) {
         return Math.sqrt(distSquared(x1, y1, x2, y2));
     }

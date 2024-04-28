@@ -52,15 +52,23 @@ class Place {
     String name;
     ServiceList serviceList; // Each Place has a name and a list of services
 
-    public Place(String name) {
-        this.name = name;
-        this.serviceList = new ServiceList();
-    }
-
     public Place(int x, int y, String name, ServiceList serviceList) {
         this.x = x;
         this.y = y;
         this.name = name;
+        this.serviceList = serviceList;
+    }
+
+    public Place(int x, int y, String name, String[] services) {
+        this.x = x;
+        this.y = y;
+        this.name = name;
+
+        ServiceList serviceList = new ServiceList();
+        for (String service : services) {
+            serviceList.addService(service);
+        }
+
         this.serviceList = serviceList;
     }
 
