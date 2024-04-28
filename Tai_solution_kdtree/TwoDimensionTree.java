@@ -17,6 +17,33 @@ public class TwoDimensionTree {
         return size;
     }
 
+    public boolean isBalanced() {
+        return checkBalance(this.root) != -1;
+    }
+
+    private int checkBalance(PlaceNode placeNode) {
+        if (placeNode == null) {
+            return 0; // Height of an empty tree
+        }
+
+        int leftHeight = checkBalance(placeNode.left);
+        if (leftHeight == -1) {
+            return -1; // Left subtree is not balanced
+        }
+
+        int rightHeight = checkBalance(placeNode.right);
+
+        if (rightHeight == -1) {
+            return -1; // Right subtree is not balanced
+        }
+
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return -1; // Current node is not balanced
+        }
+
+        return Math.max(leftHeight, rightHeight) + 1; // Return the height of the tree rooted at this node
+    }
+
     public PlaceNode add(Place newPlace) {
         if (this.root == null) {
             // if the tree's root is currently null, we create the root
@@ -173,7 +200,7 @@ public class TwoDimensionTree {
     }
 
     // Recursive method to traverse the tree and collect nodes
-    private void searchNodes(int x, int y, PlaceNode root, int depth, int walking, String service,
+    private void searchNodes(int x, int y, PlaceNode root, int depth, int walking, String service, //tlc_x
             PlaceList result) {
         if (root == null) {
             return;

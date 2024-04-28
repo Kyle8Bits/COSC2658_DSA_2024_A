@@ -269,13 +269,12 @@ public class TwoDimensionTree {
     public PlaceList search(int x, int y, int walking, String service) {
         // x y is users' current location.
         PlaceList result = new PlaceList();
-        searchNodes(x, y, this.root, 0, walking, service, result);
+        searchNodes(x, y, this.root, 0, half_width, half_height , service, result);
         return result;
     }
 
     // Recursive method to traverse the tree and collect nodes
-    private void searchNodes(int x, int y, PlaceNode root, int depth, int walking, String service,
-            PlaceList result) {
+    private void searchNodes(int x, int y, PlaceNode root, int depth, int half_width, int half_height, String service, PlaceList result) {
         if (root == null) {
             return;
         }
@@ -292,35 +291,44 @@ public class TwoDimensionTree {
         }
 
         // Traverse down the next branch first
-        searchNodes(x, y, nextBranch, depth + 1, walking, service, result);
+        searchNodes(x, y, nextBranch, depth + 1, half_width, half_width, service, result);
 
         // Check current root for service availability and distance
-        if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking
-                && result.getSize() < 50) {
+        if (root.data.findService(service) && checkWithinRectangle(x, y, half_width, half_height, root) && result.getSize() < 50) {
             result.insert(root.data);
         }
         // new code
-        double radiusSquare = (double) walking * walking;
-        double axisDistanceSquared;
-        if (currentDimensionCompare == 0) {
-            // We are splitting on x-axis
-            axisDistanceSquared = (x - root.data.x) * (x - root.data.x);
-        } else {
-            // We are splitting on y-axis
-            axisDistanceSquared = (y - root.data.y) * (y - root.data.y);
+        if(checkOtherBranch(x, y, root, half_width, half_height, currentDimensionCompare)){
+            searchNodes(x, y, otherBranch, depth+1, half_width, half_height, service, result);
         }
-
-        if (axisDistanceSquared <= radiusSquare) {
-            searchNodes(x, y, otherBranch, depth + 1, walking, service, result);
-        }
-
-        // Possibly search the other branch if close enough to have potential nodes
-        // double radiusSquare = (double) walking * walking;
-        // if (distSquared(x, y, root.data.x, root.data.y) <= radiusSquare) {
-        // searchNearestNode(x, y, otherBranch, depth + 1, walking, service, result);
-        // }
     }
 
+<<<<<<< HEAD
+    private boolean checkOtherBranch(int x, int y, PlaceNode root, int half_width, int half_height, int depth){
+        if(depth == 0){
+            return Math.abs(x - root.data.x) <= half_width;
+        }
+        else{
+            return Math.abs(y - root.data.y) <= half_height;
+        }
+    }
+
+    private boolean checkWithinRectangle(int x, int y, int half_width, int half_height, PlaceNode place){
+        int bounding_x_right = x + half_width;
+        int bounding_x_left = x - half_width; 
+
+        int bounding_y_top = y + half_height;
+        int bounding_y_botom = y - half_height;
+        
+        if(bounding_x_left < place.data.x &&  place.data.x < bounding_x_right && bounding_y_botom < place.data.y && place.data.y < bounding_y_top){
+            return true;
+        }
+        
+        return false;
+    }
+
+=======
+>>>>>>> 579cab0a589ea59901668bf4ed8699f06b3efca5
     private double distance(int x1, int y1, int x2, int y2) {
         return Math.sqrt(distSquared(x1, y1, x2, y2));
     }
