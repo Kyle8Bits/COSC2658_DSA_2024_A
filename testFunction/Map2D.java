@@ -25,8 +25,8 @@ public class Map2D {
         return tree.editService(x, y, newServices);
     }
 
-    public PlaceList searchPlaces(int x, int y, int walking, String service) {
-        return tree.search(x, y, walking, service);
+    public PlaceList searchPlaces(int x, int y, int half_width, int half_height, String service) {
+        return tree.search(x, y, half_width, half_height, service);
     }
 
     public boolean remove(int x, int y) {
