@@ -17,9 +17,9 @@ public class Application {
                 new Place(60, 10, "Florist", new String[] { "Flowers", "Plants", "Gifts" })
         };
 
-        System.out.println(map.tree.isBalanced());
         map.add(places);
-        map.tree.printBreadthFirst();
+        System.out.println(map.tree.isBalanced());
+
 
         // int walkingDistance = 100;
         // String serviceOfInterest = "Coffee";
