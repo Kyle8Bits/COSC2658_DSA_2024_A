@@ -88,22 +88,18 @@ class Place {
         return true;
     }
 
-    public double distanceTo(Place other) {
-        int deltaX = this.x - other.x;
-        int deltaY = this.y - other.y;
-        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
-
     public double distanceTo(int x, int y) {
         int deltaX = this.x - x;
         int deltaY = this.y - y;
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 
-    @Override
-    public String toString() {
+    // @Override
+    public String toString(int x, int y) {
+        String distance = String.format("%.2f", this.distanceTo(x, y));
+
         return "Place Name: " + name + "(" + this.x + ", " + this.y + "), Services: [" + serviceList.toString()
-                + "]";
+                + "]" + ", Distance to your location: " + distance;
     }
 
 }

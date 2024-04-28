@@ -59,8 +59,8 @@ public class PlaceList {
         return this.size == 0;
     }
 
-    @Override
-    public String toString() {
+    // @Override
+    public String toString(int x, int y) {
         if (this.head == null) {
             return "No place available.";
         }
@@ -69,9 +69,9 @@ public class PlaceList {
         PlaceNodeList temp = this.head;
         while (temp != null) {
             if (temp.next == null) {
-                str += temp.data.toString();
+                str += temp.data.toString(x, y);
             } else {
-                str += temp.data.toString() + "\n";
+                str += temp.data.toString(x, y) + "\n";
             }
             temp = temp.next;
         }

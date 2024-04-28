@@ -188,85 +188,94 @@ public class TwoDimensionTree {
     }
 
     public boolean remove(int x, int y) {
-        PlaceNode nodeToRemove = find(x, y);
-        if (nodeToRemove == null) {
-            return false;
+        PlaceNode nodeToDelete = find(x, y);
+        if (nodeToDelete == null) {
+            return false; // Node with the given coordinates not found
         }
-
-        removeNode(nodeToRemove);
+        root = removeNode(root, x, y, 0);
+        size--;
         return true;
     }
 
-    private void removeNode(PlaceNode node) {
-        if (node.left == null && node.right == null) {
-            // Node is a leaf
-            if (node.parent == null) {
-                root = null; // node is root and has no children
-            } else {
-                PlaceNode parent = node.parent;
-                if (parent.left == node) {
-                    parent.left = null;
-                } else {
-                    parent.right = null;
-                }
-            }
-        } else {
-            // Node is not a leaf
-            if (node.right != null) {
-                // Find minimum node from the right subtree (or maximum from the left subtree)
-                PlaceNode minNode = findMin(node.right, 0, 1); // depth starts at 0, next dimension is 1
-                node.data = minNode.data; // replace node data with minNode data
-                removeNode(minNode); // recursively remove the minNode
-            } else {
-                // No right child, replace with left child (similar logic as above)
-                PlaceNode minNode = findMin(node.left, 0, 1);
-                node.data = minNode.data;
-                removeNode(minNode);
-            }
-        }
-    }
-
-    private PlaceNode findMin(PlaceNode node, int depth, int dim) {
+    private PlaceNode removeNode(PlaceNode node, int x, int y, int depth) {
         if (node == null) {
             return null;
         }
-        int currentDimension = depth % 2;
-        if (currentDimension == dim) {
+
+        int cd = depth % 2; // Current dimension
+
+        if (node.data.x == x && node.data.y == y) {
+            // Node found. Perform deletion.
+
+            if (node.right != null) {
+                // Find minimum in the right subtree and replace node with it
+                PlaceNode min = findMin(node.right, cd, depth + 1);
+                node.data = min.data;
+                node.right = removeNode(node.right, min.data.x, min.data.y, depth + 1);
+            } else if (node.left != null) {
+                // Find minimum in the left subtree and replace node with it
+                PlaceNode min = findMin(node.left, cd, depth + 1);
+                node.data = min.data;
+                node.right = removeNode(node.left, min.data.x, min.data.y, depth + 1);
+                node.left = null; // Clear left child after moving to right
+            } else {
+                // Node is a leaf
+                return null;
+            }
+        } else if ((cd == 0 && x < node.data.x) || (cd == 1 && y < node.data.y)) {
+            node.left = removeNode(node.left, x, y, depth + 1);
+        } else {
+            node.right = removeNode(node.right, x, y, depth + 1);
+        }
+
+        return node;
+    }
+
+    private PlaceNode findMin(PlaceNode node, int d, int depth) {
+        if (node == null) {
+            return null;
+        }
+
+        int cd = depth % 2;
+
+        // Only check the dimension d for minimum if it matches the current depth
+        // dimension
+        if (cd == d) {
             if (node.left == null) {
                 return node;
             } else {
-                return findMin(node.left, depth + 1, dim);
+                return minNode(node, findMin(node.left, d, depth + 1), d);
             }
         } else {
-            PlaceNode leftMin = findMin(node.left, depth + 1, dim);
-            PlaceNode rightMin = findMin(node.right, depth + 1, dim);
-            return minNode(node, minNode(leftMin, rightMin, dim), dim);
+            return minNode(node,
+                    minNode(findMin(node.left, d, depth + 1), findMin(node.right, d, depth + 1), d),
+                    d);
         }
     }
 
-    private PlaceNode minNode(PlaceNode a, PlaceNode b, int dim) {
+    private PlaceNode minNode(PlaceNode a, PlaceNode b, int d) {
         if (a == null) {
             return b;
         }
         if (b == null) {
             return a;
         }
-        if ((dim == 0 && a.data.x < b.data.x) || (dim == 1 && a.data.y < b.data.y)) {
-            return a;
+        if (d == 0) {
+            return (a.data.x < b.data.x) ? a : b;
         } else {
-            return b;
+            return (a.data.y < b.data.y) ? a : b;
         }
     }
 
-    public PlaceList search(int x, int y, int walking, String service) {
+    public PlaceList search(int x, int y, int half_width, int half_height, String service) {
         // x y is users' current location.
         PlaceList result = new PlaceList();
-        searchNodes(x, y, this.root, 0, walking, service, result);
+        searchNodes(x, y, this.root, 0, half_width, half_height, service, result);
         return result;
     }
 
     // Recursive method to traverse the tree and collect nodes
-    private void searchNodes(int x, int y, PlaceNode root, int depth, int walking, String service,
+    private void searchNodes(int x, int y, PlaceNode root, int depth, int half_width, int half_height, String service,
             PlaceList result) {
         if (root == null) {
             return;
@@ -284,43 +293,40 @@ public class TwoDimensionTree {
         }
 
         // Traverse down the next branch first
-        searchNodes(x, y, nextBranch, depth + 1, walking, service, result);
+        searchNodes(x, y, nextBranch, depth + 1, half_width, half_height, service, result);
 
         // Check current root for service availability and distance
-        if (root.data.findService(service) && distance(root.data.x, root.data.y, x, y) <= walking
+        if (root.data.findService(service) && checkWithinRectangle(x, y, half_width, half_height, root)
                 && result.getSize() < 50) {
             result.insert(root.data);
         }
         // new code
-        double radiusSquare = (double) walking * walking;
-        double axisDistanceSquared;
-        if (currentDimensionCompare == 0) {
-            // We are splitting on x-axis
-            axisDistanceSquared = (x - root.data.x) * (x - root.data.x);
+        if (checkOtherBranch(x, y, root, half_width, half_height, currentDimensionCompare)) {
+            searchNodes(x, y, otherBranch, depth + 1, half_width, half_height, service, result);
+        }
+    }
+
+    private boolean checkOtherBranch(int x, int y, PlaceNode root, int half_width, int half_height, int depth) {
+        if (depth == 0) {
+            return Math.abs(x - root.data.x) <= half_width;
         } else {
-            // We are splitting on y-axis
-            axisDistanceSquared = (y - root.data.y) * (y - root.data.y);
+            return Math.abs(y - root.data.y) <= half_height;
         }
-
-        if (axisDistanceSquared <= radiusSquare) {
-            searchNodes(x, y, otherBranch, depth + 1, walking, service, result);
-        }
-
-        // Possibly search the other branch if close enough to have potential nodes
-        // double radiusSquare = (double) walking * walking;
-        // if (distSquared(x, y, root.data.x, root.data.y) <= radiusSquare) {
-        // searchNearestNode(x, y, otherBranch, depth + 1, walking, service, result);
-        // }
     }
 
-    private double distance(int x1, int y1, int x2, int y2) {
-        return Math.sqrt(distSquared(x1, y1, x2, y2));
-    }
+    private boolean checkWithinRectangle(int x, int y, int half_width, int half_height, PlaceNode place) {
+        int bounding_x_right = x + half_width;
+        int bounding_x_left = x - half_width;
 
-    private double distSquared(int x1, int y1, int x2, int y2) {
-        int deltaX = x1 - x2;
-        int deltaY = y1 - y2;
-        return deltaX * deltaX + deltaY * deltaY;
+        int bounding_y_top = y + half_height;
+        int bounding_y_botom = y - half_height;
+
+        if (bounding_x_left < place.data.x && place.data.x < bounding_x_right && bounding_y_botom < place.data.y
+                && place.data.y < bounding_y_top) {
+            return true;
+        }
+
+        return false;
     }
 
     public void printBreadthFirst() {
