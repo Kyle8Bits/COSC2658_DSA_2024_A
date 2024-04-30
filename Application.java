@@ -3,6 +3,12 @@ public class Application {
     public static void main(String[] args) {
         Map2D map = new Map2D(); // Assuming the TwoDimensionTree constructor accepts
         // a size parameter
+        // Place[] places = new Place[10000 * 10000];
+        // for(int i = 0; i < 10000; i++){
+        //     for(int j = 0; j < 10000; j ++){
+        //         places[i] = new Place(i, j, "cc", new String[] {"cc"});
+        //     }
+        // }
         Place[] places = {
                 new Place(90, 10, "Coffee Shop", new String[] { "Coffee", "Tea", "Pastries", "test" }),
                 new Place(15, 80, "Restaurant", new String[] { "Food", "Beverages", "Desserts", "test" }),
@@ -63,6 +69,14 @@ public class Application {
                 new Place(26, 37, "Candy Store", new String[] { "Chocolates", "Sweets", "test" }),
                 new Place(27, 38, "Bakery", new String[] { "Breads", "Cakes", "test" }),
                 new Place(28, 39, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+                new Place(282, 392, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+                new Place(238, 339, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+                new Place(238, 391, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+                new Place(248, 339, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+                new Place(258, 349, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+                new Place(281, 395, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+                new Place(2821, 396, "Ice Cream Shop", new String[] { "Ice Cream", "Frozen Yogurt", "test" }),
+
         };
 
         map.add(places);
@@ -70,9 +84,9 @@ public class Application {
 
         int location_x = 75;
         int location_y = 15;
-        int half_width = 100;
-        int half_height = 100;
-        String service = "Free WiFi";
+        int half_width = 1000;
+        int half_height = 1000;
+        String service = "test";
 
         PlaceList foundPlaces = map.searchPlaces(location_x, location_y, half_width, half_height, service);
 

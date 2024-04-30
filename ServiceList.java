@@ -56,27 +56,6 @@ public class ServiceList {
         return this.size;
     }
 
-    public void displayServices() {
-        if (this.head == null) {
-            System.out.println("No services available.");
-        }
-
-        Service temp = this.head;// print the service from head
-        while (temp != null) {
-            if (temp.next == null) {
-                System.out.println(temp.getName());
-            } else {
-                System.out.print(temp.getName() + " --> ");
-            }
-            temp = temp.next;
-        }
-    }
-
-    // public boolean checkService(String service){
-    // //check whether the service appear in this list
-    // for
-    // }
-
     public boolean contains(String service){
         Service temp = this.head;
         while(temp != null){

@@ -297,7 +297,7 @@ public class TwoDimensionTree {
         // Check current root for service availability and distance
         if (root.data.findService(service) && checkWithinRectangle(x, y, half_width, half_height, root)
                 && result.getSize() < 50) {
-            result.insert(root.data);
+            result.insert(root.data, x, y);
         }
         // new code
         if (checkOtherBranch(x, y, root, half_width, half_height, currentDimensionCompare)) {

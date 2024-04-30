@@ -1,5 +1,5 @@
 
-class PlaceNode {
+class PlaceNode {//Use for tree
     Place data;
     PlaceNode parent = null;
     PlaceNode left = null;
