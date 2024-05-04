@@ -88,17 +88,17 @@ public class PlaceList {
     // return true;
     // }
 
-    public Place get(int x, int y) {
-        PlaceListNode temp = this.head;
-        while (temp != null) {
-            if (temp.data.x == x || temp.data.y == y) {
-                return temp.data;
-            }
-            temp = temp.next;
-        }
+    // public Place get(int x, int y) {
+    //     PlaceListNode temp = this.head;
+    //     while (temp != null) {
+    //         if (temp.data.x == x || temp.data.y == y) {
+    //             return temp.data;
+    //         }
+    //         temp = temp.next;
+    //     }
 
-        return null;// reeturn null if end the loop and still not find the place
-    }
+    //     return null;// reeturn null if end the loop and still not find the place
+    // }
 
     public boolean isEmpty() {
         return this.size == 0;

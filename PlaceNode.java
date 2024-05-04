@@ -1,5 +1,5 @@
 
-class PlaceNode {//Use for tree
+class PlaceNode {// Use for tree
     Place data;
     PlaceNode parent = null;
     PlaceNode left = null;
@@ -99,6 +99,14 @@ class Place {
 
         return "Place Name: " + name + "(" + this.x + ", " + this.y + "), Services: [" + serviceList.toString()
                 + "]" + ", Distance to your location: " + distance;
+    }
+
+    @Override
+    public String toString() {
+        // String distance = String.format("%.2f", this.distanceTo(x, y));
+
+        return "Place Name: " + name + "(" + this.x + ", " + this.y + "), Services: [" + serviceList.toString()
+                + "]";
     }
 
 }
