@@ -88,9 +88,9 @@ class Place {
     }
 
     public double distanceTo(int x, int y) {
-        int deltaX = this.x - x;
-        int deltaY = this.y - y;
-        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        double deltaX = this.x - x;
+        double deltaY = this.y - y;
+        return  Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     }
 
     // @Override
