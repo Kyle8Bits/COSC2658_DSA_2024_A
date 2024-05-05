@@ -292,8 +292,10 @@ public class TwoDimensionTree {
         }
 
         // Traverse down the next branch first
+        if (result.getSize() < 50){
         searchNodes(x, y, nextBranch, depth + 1, half_width, half_height, service, result);
-
+        }
+        
         // Check current root for service availability and distance
         if (root.data.findService(service) && checkWithinRectangle(x, y, half_width, half_height, root)
                 && result.getSize() < 50) {
