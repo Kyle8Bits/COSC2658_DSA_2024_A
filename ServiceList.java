@@ -80,7 +80,7 @@ public class ServiceList {
             if (temp.next == null) {
                 str += temp.getName();
             } else {
-                str += temp.getName() + " --> ";
+                str += temp.getName() + ", ";
             }
             temp = temp.next;
         }

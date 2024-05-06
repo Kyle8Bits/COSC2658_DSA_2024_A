@@ -58,7 +58,7 @@ public class TwoDimensionTree {
     }
 
     private int partition(Place[] places, int left, int right, int dimensionCompare) {
-        Place p = places[left]; // Choose middle element as pivot to avoid worst-case on sorted arrays
+        Place p = places[left]; 
         int front = left;
         int back = right;
         while (true) {
