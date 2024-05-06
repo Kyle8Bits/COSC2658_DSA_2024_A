@@ -6,7 +6,7 @@ public class PlaceGenerator {
         Random random = new Random();
         char tick = '"';
         // Generate 100 Place objects
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             int x = random.nextInt(7878000 - 1000000 + 1) + 1000000;
             int y = random.nextInt(7878000 - 1000000 + 1) + 1000000;
             String name = generateRandomName();
@@ -31,7 +31,10 @@ public class PlaceGenerator {
                 "Botanical Garden", "Art Gallery", "Town Square", "Recreational Center", 
                 "Visitor Center", "Cultural Center", "Exhibition Hall", "Amphitheater", "Observatory" };
         Random random = new Random();
-        return names[random.nextInt(names.length)];
+        Random random2 = new Random();
+
+        int rand = random2.nextInt(100);
+        return names[random.nextInt(names.length)] + rand;
     }
 
     private static String[] generateRandomServices() {
@@ -39,8 +42,11 @@ public class PlaceGenerator {
         String[] availableServices = { "Food", "Drinks", "Entertainment", "Education",
                 "Healthcare", "Shopping", "Fitness", "Art", "Community","Transportation"};
         Random random = new Random();
+        int start = random.nextInt(availableServices.length - 5);
+        
         for (int i = 0; i < 5; i++) {
-            services[i] = availableServices[random.nextInt(availableServices.length)];
+            services[i] = availableServices[start];
+            start++;
         }
         return services;
     }
