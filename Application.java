@@ -1,14 +1,8 @@
-
 public class Application {
     public static void main(String[] args) {
-        Map2D map = new Map2D(); // Assuming the TwoDimensionTree constructor accepts
-        // a size parameter
-        // Place[] places = new Place[10000 * 10000];
-        // for(int i = 0; i < 10000; i++){
-        // for(int j = 0; j < 10000; j ++){
-        // places[i] = new Place(i, j, "cc", new String[] {"cc"});
-        // }
-        // }
+        //set up the map
+        Map2D map = new Map2D(); 
+
         Place[] places = {
                 new Place(90, 10, "Coffee Shop", new String[] { "Coffee", "Tea", "Pastries", "test" }),
                 new Place(15, 80, "Restaurant", new String[] { "Food", "Beverages", "Desserts", "test" }),
@@ -158,15 +152,26 @@ public class Application {
         };
 
         map.add(places);
-        System.out.println(map.tree.isBalanced());
 
+        System.out.println("Test the tree balanced condition: " + map.tree.isBalanced());
+
+        //set up for search alogrtihm
         int location_x = 7500;
         int location_y = 1500;
         int half_width = 10000000;
         int half_height = 10000000;
         String service = "test";
 
+        //set up the evaluate base
+        System.out.println("The total node in the tree: " + places.length);
+
+        //run the search
+        long start1 = System.nanoTime();
         PlaceList foundPlaces = map.searchPlaces(location_x, location_y, half_width, half_height, service);
+        long end1 = System.nanoTime();  
+        
+        //output the execute time of search
+        System.out.println("The total time of search algorithm: " + (end1 - start1) + "nanotime");
 
         // Output the results
         if (foundPlaces.isEmpty()) {

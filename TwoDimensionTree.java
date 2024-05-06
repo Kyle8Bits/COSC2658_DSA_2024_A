@@ -7,6 +7,9 @@ public class TwoDimensionTree {
     protected PlaceNode root;
     protected int size;
 
+    //set up the evaluate
+    public static int visitedNode = 0;
+
     public TwoDimensionTree() {
         this.root = null;
         this.size = 0;
@@ -270,6 +273,8 @@ public class TwoDimensionTree {
         // x y is users' current location.
         PlaceList result = new PlaceList();
         searchNodes(x, y, this.root, 0, half_width, half_height, service, result);
+
+        System.out.println("The visited node: " + visitedNode);
         return result;
     }
 
@@ -279,6 +284,8 @@ public class TwoDimensionTree {
         if (root == null) {
             return;
         }
+
+        visitedNode++;
 
         int currentDimensionCompare = depth % 2;
         PlaceNode nextBranch, otherBranch;
