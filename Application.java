@@ -171,7 +171,8 @@ public class Application {
         long end1 = System.nanoTime();  
         
         //output the execute time of search
-        System.out.println("The total time of search algorithm: " + (end1 - start1) + "nanotime");
+        System.out.println("The total time of search algorithm: " + (end1 - start1)+ " nano time");
+
 
         // Output the results
         if (foundPlaces.isEmpty()) {
