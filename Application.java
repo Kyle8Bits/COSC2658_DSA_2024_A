@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Application {
         public static void main(String[] args) {
                 // set up the map
@@ -3006,7 +3004,6 @@ public class Application {
                                 new Place(3001444, 2723866, "Park3",
                                                 new String[] { "Entertainment", "Education", "Healthcare", "Shopping",
                                                                 "Fitness", }),
-
                 };
 
                 map.add(places);
@@ -3035,10 +3032,11 @@ public class Application {
 
                 // Output the results
                 if (foundPlaces.isEmpty()) {
-                        System.out.println("No places found within the specified area that offer the service: " + service);
+                        System.out.println(
+                                        "No places found within the specified area that offer the service: " + service);
                 } else {
                         System.out.println("Found " + foundPlaces.getSize() + " places offering '" + service
-                                                        + "' within the area.");
+                                        + "' within the area.");
                         System.out.println(foundPlaces.toString(location_x, location_y));
                 }
         }

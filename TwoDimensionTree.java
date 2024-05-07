@@ -1,3 +1,4 @@
+import java.util.Queue;
 
 public class TwoDimensionTree {
     // this is the 2 dimensiontree
@@ -321,6 +322,19 @@ public class TwoDimensionTree {
         }
 
         return false;
+    }
+
+    public void inOrder() {
+        this.inOrderRecursive(this.root);
+    }
+
+    private void inOrderRecursive(PlaceNode node) {
+        if (node != null) {
+            inOrderRecursive(node.left);
+            System.out.println(node.data);
+            inOrderRecursive(node.right);
+        }
+
     }
 
 }

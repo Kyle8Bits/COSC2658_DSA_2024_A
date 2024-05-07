@@ -4,15 +4,14 @@ public class TestEffeciency {
 
     public static void main(String[] args) {
         Random random = new Random();
+        int size = 100000;
         // Generate 100 Place objects
-        Place places[] = new Place[50000000];
-        for (int i = 0; i < 50000000; i++) {
+        Place places[] = new Place[size];
+        for (int i = 0; i < size; i++) {
             int x = random.nextInt(10000000);
             int y = random.nextInt(10000000);
             String name = generateRandomName();
             String[] services = generateRandomServices();
-            // Do something with the Place object, like printing it
-            // System.out.println("new Place("+x+"," + y +"," + tick + name + tick + ", new String[] {" + printArry(services) + "}),");
             places[i] = new Place(x, y, name, services);
         }
 
@@ -20,7 +19,7 @@ public class TestEffeciency {
 
         long addStart = System.currentTimeMillis();
         map.add(places);
-        System.out.println("Add: " + (double) (System.currentTimeMillis() - addStart));
+        System.out.println("Add time : " + (double) (System.currentTimeMillis() - addStart));
 
         System.out.println("Map size: " +  map.tree.size());
 
