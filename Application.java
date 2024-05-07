@@ -3010,49 +3010,36 @@ public class Application {
                 };
 
                 map.add(places);
-                Random random = new Random();
-                Random random2 = new Random();
 
                 System.out.println("Test the tree balanced condition: " + map.tree.isBalanced());
 
-                for (int i = 0; i < 10; i++) {
-                        System.out.println("Run number: " + i);
-                        // set up for search alogrtihm
-                        int location_x = 5000000;
-                        int location_y = 5000000;
-                        int half_width = random.nextInt(10000000);
-                        int half_height = random2.nextInt(10000000);
-                        String[] availableServices = { "Food", "Drinks", "Entertainment", "Education",
-                                        "Healthcare", "Shopping", "Fitness", "Art", "Community", "Transportation" };
+                // set up for search alogrtihm
+                int location_x = 5000000;
+                int location_y = 5000000;
+                int half_width = 10000000;
+                int half_height = 10000000;
+                String service = "Shopping";
 
-                        // set up the evaluate base
-                        System.out.println("The total node in the tree: " + places.length);
-                        System.out.println("h = " + half_height);
-                        System.out.println("w = " + half_width);
-                        System.out.println("Search service: " + availableServices[i]);
-                        // run the search
-                        long start1 = System.nanoTime();
-                        PlaceList foundPlaces = map.searchPlaces(location_x, location_y, half_width, half_height,
-                                        availableServices[i]);
-                        long end1 = System.nanoTime();
+                // set up the evaluate base
+                System.out.println("The total node in the tree: " + map.tree.size());
 
-                        // output the execute time of search
-                        System.out.println("The total time of search algorithm: " + (end1 - start1) + " nano second");
-                        System.out.println("The total time of search algorithm: " + (double) (end1 - start1) / 1000000
-                                        + " millies second second");
+                // run the search
+                long start1 = System.nanoTime();
+                PlaceList foundPlaces = map.searchPlaces(location_x, location_y, half_width, half_height, service);
+                long end1 = System.nanoTime();
 
-                        // Output the results
-                        if (foundPlaces.isEmpty()) {
-                                System.out.println("No places found within the specified area that offer the service: "
-                                                + availableServices[i]);
-                        } else {
-                                System.out.println("Found " + foundPlaces.getSize() + " places offering '"
-                                                + availableServices[i] + "' within the area.");
-                                System.out.println(foundPlaces.toString(location_x, location_y));
-                        }
+                // output the execute time of search
+                System.out.println("The total time of search algorithm: " + (end1 - start1) + " nano second");
+                System.out.println("The total time of search algorithm: " + (double) (end1 - start1) / 1000000
+                                + " millies second second");
 
-                        System.out.println("\n\n");
-
+                // Output the results
+                if (foundPlaces.isEmpty()) {
+                        System.out.println("No places found within the specified area that offer the service: " + service);
+                } else {
+                        System.out.println("Found " + foundPlaces.getSize() + " places offering '" + service
+                                                        + "' within the area.");
+                        System.out.println(foundPlaces.toString(location_x, location_y));
                 }
         }
 }
