@@ -1,22 +1,43 @@
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class TwoDimensionTree {
     // this is the 2 dimensiontree
     protected PlaceNode root;
-    protected int size;
 
-    //set up the evaluate
+    // set up the evaluate
     public static int visitedNode = 0;
 
     public TwoDimensionTree() {
         this.root = null;
-        this.size = 0;
     }
 
     public int size() {
-        return size;
+        if (this.root != null) {
+            return this.root.subtreeNodes;
+        }
+
+        return 0;
+    }
+
+    public PlaceNode buildTest(Place[] places) {
+        Place[] placeX = places.clone();
+        Place[] placeY = places.clone();
+
+        this.sortPlace(placeX, 0, placeX.length - 1, 0);
+        this.sortPlace(placeY, 0, placeY.length - 1, 1);
+
+        for (Place p : placeX) {
+            System.out.print(p.x + ",");
+            System.out.print(p.y + " ");
+
+        }
+        System.out.println();
+        for (Place p : placeY) {
+            System.out.print(p.x + ",");
+            System.out.print(p.y + " ");
+        }
+
+        return null;
+
     }
 
     public PlaceNode build(Place[] places) {
@@ -45,6 +66,13 @@ public class TwoDimensionTree {
         node.left = buildTree(places, left, mid - 1, depth + 1, node);
         node.right = buildTree(places, mid + 1, right, depth + 1, node);
 
+        if (node.left != null) {
+            node.subtreeNodes += node.left.subtreeNodes;
+        }
+        if (node.right != null) {
+            node.subtreeNodes += node.right.subtreeNodes;
+        }
+
         return node;
     }
 
@@ -58,7 +86,8 @@ public class TwoDimensionTree {
     }
 
     private int partition(Place[] places, int left, int right, int dimensionCompare) {
-        Place p = places[left]; 
+        // int middle = (right - left) / 2;
+        Place p = places[left];
         int front = left;
         int back = right;
         while (true) {
@@ -110,48 +139,6 @@ public class TwoDimensionTree {
 
         return Math.max(leftHeight, rightHeight) + 1; // Return the height of the tree rooted at this node
     }
-    // public PlaceNode add(Place newPlace) {
-    // if (this.root == null) {
-    // // if the tree's root is currently null, we create the root
-    // this.root = new PlaceNode(null, newPlace); // Set root directly if tree is
-    // empty
-    // size++;
-    // return root;
-    // }
-
-    // // Otherwise, we invoke the addNewNode fucntion.
-    // return addNode(root, newPlace, 0);
-    // }
-
-    // g(N))
-    // ate PlaceNode addNode(PlaceNode node, Place newPlace, int depth) {
-    // // if (node == null) {
-    // // return new PlaceNode(null, newPlace);
-    // // }
-
-    // int currentDimensionCompare = depth % 2;
-    // // if currentDimensionCompare is 0 the program will compare x coordinate,
-    // // otherwise currentDimensionCompare = 1 ==> compare y.
-
-    // FT
-    // (currentDimensionCompare == 0 && newPlace.x < node.data.x)
-    // || (currentDimensionCompare == 1 && newPlace.y < node.data.y)) {
-    // node.left == null) {
-    // node.left = new PlaceNode(node, newPlace);
-    // return node.left;
-    // } else {
-    // return addNode(node.left, newPlace, depth + 1);
-    // }
-
-    // // GO RIGHT
-    // node.right == null) {
-    // node.right = new PlaceNode(node, newPlace);
-    // return node.right;
-    // } else {
-    // return addNode(node.right, newPlace, depth + 1);
-    // }
-    // }
-    // }
 
     public boolean editService(int x, int y, String[] newServices) {
         PlaceNode editedPlaceNode = this.find(x, y);
@@ -195,7 +182,6 @@ public class TwoDimensionTree {
             return false; // Node with the given coordinates not found
         }
         root = removeNode(root, x, y, 0);
-        size--;
         return true;
     }
 
@@ -299,10 +285,10 @@ public class TwoDimensionTree {
         }
 
         // Traverse down the next branch first
-        if (result.getSize() < 50){
-        searchNodes(x, y, nextBranch, depth + 1, half_width, half_height, service, result);
+        if (result.getSize() < 50) {
+            searchNodes(x, y, nextBranch, depth + 1, half_width, half_height, service, result);
         }
-        
+
         // Check current root for service availability and distance
         if (root.data.findService(service) && checkWithinRectangle(x, y, half_width, half_height, root)
                 && result.getSize() < 50) {
@@ -335,36 +321,6 @@ public class TwoDimensionTree {
         }
 
         return false;
-    }
-
-    public void printBreadthFirst() {
-        breadthFirstTraversal(this.root);
-    }
-
-    private void breadthFirstTraversal(PlaceNode root) {
-        if (root == null) {
-            return;
-        }
-
-        Queue<PlaceNode> queue = new LinkedList<>();
-        queue.add(root);
-
-        while (!queue.isEmpty()) {
-            PlaceNode current = queue.poll();
-
-            // Visit the node
-            System.out.println("Visited node: " + current.data.toString());
-
-            // Enqueue left child
-            if (current.left != null) {
-                queue.add(current.left);
-            }
-
-            // Enqueue right child
-            if (current.right != null) {
-                queue.add(current.right);
-            }
-        }
     }
 
 }

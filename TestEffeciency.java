@@ -1,4 +1,3 @@
-import java.util.Random;
 public class TestEffeciency {
     public static void main(String[] args) {
         //set up the map
@@ -1019,7 +1018,7 @@ public class TestEffeciency {
         String service = "Shopping";
 
         //set up the evaluate base
-        System.out.println("The total node in the tree: " + places.length);
+        System.out.println("The total node in the tree: " + map.tree.size());
 
         //run the search
         long start1 = System.nanoTime();
@@ -1033,13 +1032,13 @@ public class TestEffeciency {
 
 
         // Output the results
-        // if (foundPlaces.isEmpty()) {
-        //     System.out.println("No places found within the specified area that offer the service: " + service);
-        // } else {
-        //     System.out
-        //             .println("Found " + foundPlaces.getSize() + " places offering '" + service + "' within the area.");
-        //     System.out.println(foundPlaces.toString(location_x, location_y));
-        // }
+        if (foundPlaces.isEmpty()) {
+            System.out.println("No places found within the specified area that offer the service: " + service);
+        } else {
+            System.out
+                    .println("Found " + foundPlaces.getSize() + " places offering '" + service + "' within the area.");
+            System.out.println(foundPlaces.toString(location_x, location_y));
+        }
 
     }
 

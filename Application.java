@@ -6,10 +6,10 @@ public class Application {
                 Map2D map = new Map2D();
 
                 Place[] places = {
-                                new Place(3203705, 4046858, "Gym3",
+                                new Place(3203705, 4046858, "Gym",
                                                 new String[] { "Entertainment", "Education", "Healthcare", "Shopping",
                                                                 "Fitness", }),
-                                new Place(3949355, 5869479, "Park65",
+                                new Place(3949355, 5869479, "Gym",
                                                 new String[] { "Entertainment", "Education", "Healthcare", "Shopping",
                                                                 "Fitness", }),
                                 new Place(3792603, 1151758, "Visitor Center5",
@@ -3006,6 +3006,7 @@ public class Application {
                                 new Place(3001444, 2723866, "Park3",
                                                 new String[] { "Entertainment", "Education", "Healthcare", "Shopping",
                                                                 "Fitness", }),
+
                 };
 
                 map.add(places);
@@ -3047,7 +3048,7 @@ public class Application {
                         } else {
                                 System.out.println("Found " + foundPlaces.getSize() + " places offering '"
                                                 + availableServices[i] + "' within the area.");
-                                // System.out.println(foundPlaces.toString(location_x, location_y));
+                                System.out.println(foundPlaces.toString(location_x, location_y));
                         }
 
                         System.out.println("\n\n");
