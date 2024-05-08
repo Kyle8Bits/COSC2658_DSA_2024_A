@@ -1,16 +1,16 @@
 public class demoVideoTest {
     public static void main(String[] args) {
         Place[] places = new Place[] {
-                new Place(15, 80, "Restaurant", new String[] { "Food", "Beverages", "Desserts", "test" }),
-                new Place(20, 50, "Restaurant2", new String[] { "Food", "Beverages", "Desserts", "test" }),
-                new Place(50, 70, "Restaurant1", new String[] { "Food", "Beverages", "Desserts", "test" }),
-                new Place(70, 90, "Bookstore", new String[] { "Books", "Magazines", "Stationery", "test" }),
-                new Place(85, 95, "Library", new String[] { "Books", "Study Rooms", "Free WiFi", "test" }),
-                new Place(51, 90, "Library", new String[] { "Books", "Study Rooms", "Free WiFi", "test" }),
-                new Place(51, 91, "Library", new String[] { "Books", "Study Rooms", "Free WiFi", "test" }),
-                new Place(52, 92, "Library", new String[] { "Books", "Study Rooms", "Free WiFi", "test" }),
-                new Place(53, 93, "Library", new String[] { "Books", "Study Rooms", "Free WiFi", "test" }),
-                new Place(54, 94, "Library", new String[] { "Books", "Study Rooms", "Free WiFi", "test" }),
+                new Place(15, 80, "Ton Duc Thang University", new String[] { "Education", "Library", "Parking"}),
+                new Place(20, 50, "Nguyen Tat Thanh University", new String[] { "Education", "Parking", "Food", "Dorm"}),
+                new Place(50, 70, "RMIT University Vietnam", new String[] { "Education", "Drinks", "Food", "Parking", "Theater", "Stadium", "Football Field"}),
+                new Place(70, 90, "Phuc Long Coffe", new String[] { "Drinks", "Dessert", "Stationery", "Free WiFi" }),
+                new Place(85, 95, "The Coffee House", new String[] { "Drinks", "Study Rooms", "Free WiFi", "Garden" }),
+                new Place(51, 90, "Cresent Mall", new String[] { "Shopping", "Fitness", "Free WiFi", "Food", "Theater", "Parking"}),
+                new Place(51, 91, "Vivo Megamall", new String[] { "Shopping", "Food", "Bowling", "Playground", "Fitness", "Parking" }),
+                new Place(52, 92, "Petrolimex Gas Station", new String[] { "Gasoline", "Grocery"}),
+                new Place(53, 93, "PVOIL Gas Station", new String[] {"Gasonline", "Grocery", "Food" }),
+                new Place(54, 94, "RMIT Parking Lot", new String[] {"Parking"})
         };
 
         Map2D map = new Map2D();
