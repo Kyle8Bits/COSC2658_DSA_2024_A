@@ -1,5 +1,3 @@
-import java.util.Queue;
-
 public class TwoDimensionTree {
     // this is the 2 dimensiontree
     protected PlaceNode root;

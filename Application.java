@@ -3008,7 +3008,7 @@ public class Application {
 
                 map.add(places);
 
-                System.out.println("Test the tree balanced condition: " + map.tree.isBalanced());
+                System.out.println("Test the tree balanced condition: " + map.isBalanced());
 
                 // set up for search alogrtihm
                 int location_x = 5000000;
@@ -3018,7 +3018,7 @@ public class Application {
                 String service = "Shopping";
 
                 // set up the evaluate base
-                System.out.println("The total node in the tree: " + map.tree.size());
+                System.out.println("The total node in the tree: " + map.size());
 
                 // run the search
                 long start1 = System.nanoTime();

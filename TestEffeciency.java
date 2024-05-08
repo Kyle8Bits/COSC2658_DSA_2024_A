@@ -3,7 +3,7 @@ import java.util.Random;
 public class TestEffeciency {
     public static void main(String[] args) {
         Random random = new Random();
-        int size = 10000000;
+        int size = 1000000;
         // Generate 100 Place objects
         Place places[] = new Place[size];
         for (int i = 0; i < size - 1; i++) {
@@ -19,18 +19,18 @@ public class TestEffeciency {
         //ADDING TEST TIME
         // long addStart = System.currentTimeMillis();
         map.add(places);
-        System.out.println("Map size: " + map.tree.size());
+        System.out.println("Map size: " + map.size());
         // System.out.println("Adding time : " + (System.currentTimeMillis() - addStart) + "(ms)");
 
         //EDIT TEST TIME
-        long editStart = System.nanoTime();
-        map.edit(99999, 91112, new String[] {"edit service", "edit new"});
-        System.out.println("Edit time : " + (System.nanoTime() - editStart) + "(nano time)");
+        // long editStart = System.nanoTime();
+        // map.edit(99999, 91112, new String[] {"edit service", "edit new"});
+        // System.out.println("Edit time : " + (System.nanoTime() - editStart) + "(nano time)");
         
         //REMOVE TEST TIME
-        // long removeStart = System.nanoTime();
-        // map.remove(99999, 91112);
-        // System.out.println("Remove time : " + (System.nanoTime() - removeStart) + "(nano time)");
+        long removeStart = System.nanoTime();
+        map.remove(999999, 999999);
+        System.out.println("Remove time : " + (System.nanoTime() - removeStart) + "(nano time)");
 
         // long addSearch = System.currentTimeMillis();
         // PlaceList foundPlaces = map.searchPlaces(5000000, 5000000, 50000, 50000,

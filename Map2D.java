@@ -1,6 +1,6 @@
 
 public class Map2D {
-    public final TwoDimensionTree tree;// the tree contains the place node
+    private final TwoDimensionTree tree;// the tree contains the place node
 
     public Map2D() {
         this.tree = new TwoDimensionTree();
@@ -21,5 +21,17 @@ public class Map2D {
 
     public boolean remove(int x, int y) {
         return tree.remove(x, y);
+    }
+
+    public boolean isBalanced() {
+        return tree.isBalanced();
+    }
+
+    public int size() {
+        return tree.size();
+    }
+
+    public void inOrder() {
+        tree.inOrder();
     }
 }
