@@ -17,7 +17,8 @@ public class TestEffeciency {
             places[i] = new Place(x, y, name, services);
         }
 
-
+    //YOUR CODE GO HERE
+    
     }
 
     private static String generateRandomName() {
