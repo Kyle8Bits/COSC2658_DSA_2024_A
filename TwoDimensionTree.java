@@ -255,11 +255,13 @@ public class TwoDimensionTree {
     }
 
     public PlaceList search(int x, int y, int half_width, int half_height, String service) {
+        
         // x y is users' current location.
         PlaceList result = new PlaceList();
         searchNodes(x, y, this.root, 0, half_width, half_height, service, result);
 
         System.out.println("The visited node: " + visitedNode);
+        visitedNode = 0;
         return result;
     }
 
@@ -269,12 +271,14 @@ public class TwoDimensionTree {
         if (root == null) {
             return;
         }
-
+        //increase the visit node every time it recursive back
         visitedNode++;
 
+        // get the curretn level
         int currentDimensionCompare = depth % 2;
         PlaceNode nextBranch, otherBranch;
 
+        //compare the coordinate based on the current level
         if ((currentDimensionCompare == 0 && x < root.data.x) || (currentDimensionCompare == 1 && y < root.data.y)) {
             nextBranch = root.left;
             otherBranch = root.right;
@@ -293,13 +297,14 @@ public class TwoDimensionTree {
                 && result.getSize() < 50) {
             result.insert(root.data, x, y);
         }
-        // new code
+        //go back the skipped branch and check if it within the rectangle
         if (checkOtherBranch(x, y, root, half_width, half_height, currentDimensionCompare)) {
             searchNodes(x, y, otherBranch, depth + 1, half_width, half_height, service, result);
         }
     }
 
     private boolean checkOtherBranch(int x, int y, PlaceNode root, int half_width, int half_height, int depth) {
+        //check the x and y coordinate based on level with the devide line of the bounding rectangle
         if (depth == 0) {
             return Math.abs(x - root.data.x) <= half_width;
         } else {
@@ -308,12 +313,13 @@ public class TwoDimensionTree {
     }
 
     private boolean checkWithinRectangle(int x, int y, int half_width, int half_height, PlaceNode place) {
+        //create 4 bounding number based on the half-width and half-heigth length
         int bounding_x_right = x + half_width;
         int bounding_x_left = x - half_width;
 
         int bounding_y_top = y + half_height;
         int bounding_y_botom = y - half_height;
-
+        //using the bouding number to see if the places is within
         if (bounding_x_left < place.data.x && place.data.x < bounding_x_right && bounding_y_botom < place.data.y
                 && place.data.y < bounding_y_top) {
             return true;
