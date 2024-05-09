@@ -17,28 +17,7 @@ public class TwoDimensionTree {
         return 0;
     }
 
-    public PlaceNode buildTest(Place[] places) {
-        Place[] placeX = places.clone();
-        Place[] placeY = places.clone();
-
-        this.sortPlace(placeX, 0, placeX.length - 1, 0);
-        this.sortPlace(placeY, 0, placeY.length - 1, 1);
-
-        for (Place p : placeX) {
-            System.out.print(p.x + ",");
-            System.out.print(p.y + " ");
-
-        }
-        System.out.println();
-        for (Place p : placeY) {
-            System.out.print(p.x + ",");
-            System.out.print(p.y + " ");
-        }
-
-        return null;
-
-    }
-
+    //Time complexity: O(N(logN)^2)
     public PlaceNode build(Place[] places) {
         return this.root = buildTree(places, 0, places.length - 1, 0, null);
     }
@@ -75,6 +54,7 @@ public class TwoDimensionTree {
         return node;
     }
 
+    //time complexity for average case: O(NlogN)
     private void sortPlace(Place[] places, int left, int right, int dimensionCompare) {
         // this is quicksort
         if (left < right) {
