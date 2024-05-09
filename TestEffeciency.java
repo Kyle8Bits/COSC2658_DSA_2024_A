@@ -1,5 +1,8 @@
 import java.util.Random;
 
+//THIS CLASS IS ONLY USING TO TEST THE BIG DATA, THE RESULT FOR EACH FUNCTION CAN BE DIFFERENT, 
+//SINCE THE DATA IS RANDOMIZE EACH TIME.
+
 public class TestEffeciency {
     public static void main(String[] args) {
         Random random = new Random();
@@ -13,42 +16,8 @@ public class TestEffeciency {
             String[] services = generateRandomServices();
             places[i] = new Place(x, y, name, services);
         }
-        places[size - 1] = new Place(999999, 999999, "removePlace", new String[] { "removeService" });
-        Map2D map = new Map2D();
 
-        // ADDING TEST TIME
-        long addStart = System.currentTimeMillis();
-        map.add(places);
-        System.out.println("Map size: " + map.size());
-        System.out.println("Adding time : " + (System.currentTimeMillis() - addStart) + "(ms)");
-        System.out.println(map.isBalanced());
-        // EDIT TEST TIME
-        // long editStart = System.nanoTime();
-        // map.edit(99999, 91112, new String[] {"edit service", "edit new"});
-        // System.out.println("Edit time : " + (System.nanoTime() - editStart) + "(nano
-        // time)");
 
-        // REMOVE TEST TIME
-        // long removeStart = System.nanoTime();
-        // map.remove(999999, 999999);
-        // System.out.println("Remove time : " + (System.nanoTime() - removeStart) +
-        // "(nano time)");
-
-        // long addSearch = System.currentTimeMillis();
-        // PlaceList foundPlaces = map.searchPlaces(5000000, 5000000, 50000, 50000,
-        // "Food");
-        // System.out.println("Add: " + (double) (System.currentTimeMillis() -
-        // addSearch));
-
-        // if (foundPlaces.isEmpty()) {
-        // System.out.println("No places found within the specified area that offer the
-        // service: "
-        // );
-        // } else {
-        // System.out.println("Found " + foundPlaces.getSize() + " places offering " +
-        // "Food" + "' within the area.");
-        // System.out.println(foundPlaces.toString(5000000, 5000000));
-        // }
     }
 
     private static String generateRandomName() {

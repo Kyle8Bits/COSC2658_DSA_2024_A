@@ -119,7 +119,7 @@ public class TwoDimensionTree {
         return Math.max(leftHeight, rightHeight) + 1; // Return the height of the tree rooted at this node
     }
 
-    // Time complexity: O(N + k^2), k is the number of new services
+    // Time complexity: O(N + k), k is the number of new services
     public boolean editService(int x, int y, String[] newServices) {
         PlaceNode editedPlaceNode = this.find(x, y);
         if (editedPlaceNode != null) {
@@ -246,7 +246,7 @@ public class TwoDimensionTree {
         PlaceList result = new PlaceList();
         searchNodes(x, y, this.root, 0, half_width, half_height, service, result);
 
-        System.out.println("The visited node: " + visitedNode);
+        System.out.println("The visited places: " + visitedNode);
         visitedNode = 0;
         return result;
     }

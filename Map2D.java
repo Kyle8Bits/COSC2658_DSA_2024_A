@@ -34,4 +34,8 @@ public class Map2D {
     public void inOrder() {
         tree.inOrder();
     }
+
+    public PlaceNode find(int x, int y){
+        return tree.find(x, y);
+    }
 }
