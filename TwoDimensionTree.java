@@ -119,6 +119,7 @@ public class TwoDimensionTree {
         return Math.max(leftHeight, rightHeight) + 1; // Return the height of the tree rooted at this node
     }
 
+    // Time complexity: O(N + k^2), k is the number of new services
     public boolean editService(int x, int y, String[] newServices) {
         PlaceNode editedPlaceNode = this.find(x, y);
         if (editedPlaceNode != null) {
@@ -127,6 +128,7 @@ public class TwoDimensionTree {
         return false;
     }
 
+    // Time complexity: O(logN)
     public PlaceNode find(int x, int y) {
         return findNode(this.root, x, y, 0);
     }
@@ -155,6 +157,7 @@ public class TwoDimensionTree {
         }
     }
 
+    // Time complexity: O(N)
     public boolean remove(int x, int y) {
         PlaceNode nodeToDelete = find(x, y);
         if (nodeToDelete == null) {
@@ -164,6 +167,7 @@ public class TwoDimensionTree {
         return true;
     }
 
+    // Time complexity: O(N)
     private PlaceNode removeNode(PlaceNode node, int x, int y, int depth) {
         if (node == null) {
             return null;
@@ -198,6 +202,7 @@ public class TwoDimensionTree {
         return node;
     }
 
+    // Finds the node with the minimum value in the k-d tree for the specified dimension.
     private PlaceNode findMin(PlaceNode node, int d, int depth) {
         if (node == null) {
             return null;
@@ -220,6 +225,7 @@ public class TwoDimensionTree {
         }
     }
 
+    // Compares two nodes and returns the one with the minimum value in the specified dimension.
     private PlaceNode minNode(PlaceNode a, PlaceNode b, int d) {
         if (a == null) {
             return b;
