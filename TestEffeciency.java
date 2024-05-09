@@ -13,24 +13,26 @@ public class TestEffeciency {
             String[] services = generateRandomServices();
             places[i] = new Place(x, y, name, services);
         }
-        places[size - 1] = new Place(999999, 999999, "removePlace", new String[] {"removeService"});
+        places[size - 1] = new Place(999999, 999999, "removePlace", new String[] { "removeService" });
         Map2D map = new Map2D();
 
-        //ADDING TEST TIME
-        // long addStart = System.currentTimeMillis();
+        // ADDING TEST TIME
+        long addStart = System.currentTimeMillis();
         map.add(places);
         System.out.println("Map size: " + map.size());
-        // System.out.println("Adding time : " + (System.currentTimeMillis() - addStart) + "(ms)");
-
-        //EDIT TEST TIME
+        System.out.println("Adding time : " + (System.currentTimeMillis() - addStart) + "(ms)");
+        System.out.println(map.isBalanced());
+        // EDIT TEST TIME
         // long editStart = System.nanoTime();
         // map.edit(99999, 91112, new String[] {"edit service", "edit new"});
-        // System.out.println("Edit time : " + (System.nanoTime() - editStart) + "(nano time)");
-        
-        //REMOVE TEST TIME
-        long removeStart = System.nanoTime();
-        map.remove(999999, 999999);
-        System.out.println("Remove time : " + (System.nanoTime() - removeStart) + "(nano time)");
+        // System.out.println("Edit time : " + (System.nanoTime() - editStart) + "(nano
+        // time)");
+
+        // REMOVE TEST TIME
+        // long removeStart = System.nanoTime();
+        // map.remove(999999, 999999);
+        // System.out.println("Remove time : " + (System.nanoTime() - removeStart) +
+        // "(nano time)");
 
         // long addSearch = System.currentTimeMillis();
         // PlaceList foundPlaces = map.searchPlaces(5000000, 5000000, 50000, 50000,

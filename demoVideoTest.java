@@ -16,7 +16,7 @@ public class demoVideoTest {
         Map2D map = new Map2D();
         map.add(places);
         System.out.println(map.isBalanced());
-        System.out.println("Pre-order: ");
+        System.out.println("In-order: ");
         map.inOrder();
     }
 }
